@@ -13,7 +13,7 @@
         android:layout_width="108dp"
         android:layout_height="87dp"
         android:layout_gravity="center_horizontal"
-        android:drawableTop="@drawable/CargoTrackLogo" />
+         />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
