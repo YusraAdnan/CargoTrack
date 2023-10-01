@@ -10,25 +10,17 @@
     tools:context="MainActivity">
 
     <TextView
-        android:layout_width="150dp"
-        android:layout_height="130dp"
-        android:layout_marginLeft="10dp"
-        android:layout_gravity="center_horizontal"
-        android:drawableTop="@drawable/CargoTrackLogo"
-        />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cargo Track"
         android:id="@+id/welcomeText"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="8dp"
-        android:textSize="20sp"
+        android:text="Cargo Track"
         android:textAlignment="center"
         android:textAllCaps="true"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
