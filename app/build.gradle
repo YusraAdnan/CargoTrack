@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.CargoTrack.cargotrack'
+    namespace 'com.CargoTrack.com.com.cargotrack.cargotrack.com.cargotrack.cargotrack'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.CargoTrack.cargotrack"
+        applicationId "com.CargoTrack.com.com.cargotrack.cargotrack.com.cargotrack.cargotrack"
         minSdk 24
         targetSdk 33
         versionCode 1
