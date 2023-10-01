@@ -12,7 +12,7 @@ import com.google.firebase.ktx.Firebase
 
 class SignUpActivity : AppCompatActivity() {
 
-    lateinit var etEmail: EditText
+    //lateinit var etEmail: EditText
     lateinit var etUsername: EditText
     lateinit var etFullName: EditText
     lateinit var etPassword: EditText
@@ -29,7 +29,7 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sign_up)
         super.onCreate(savedInstanceState)
 
-        etEmail = findViewById(R.id.etEmail)
+        //etEmail = findViewById(R.id.etEmail)
         etFullName = findViewById(R.id.etFullName)
         etUsername = findViewById(R.id.etUserName)
         etPassword = findViewById(R.id.etPassword)
@@ -50,14 +50,14 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun UserSignUp() {
-        val email = etEmail.text.toString()
-        val fullname = etFullName.text.toString()
+        //val email = etEmail.text.toString()
+        //val fullname = etFullName.text.toString()
         val username = etUsername.text.toString()
         val password = etPassword.text.toString()
         val confirmPassword = etConfirmPassword.text.toString()
 
         //error handling if any of the edit texts are blank/null
-        if (email.isBlank() || password.isBlank() || confirmPassword.isBlank()) {
+        if (username.isBlank() || password.isBlank() || confirmPassword.isBlank()) {
             Toast.makeText(this, "Fill in you email and password", Toast.LENGTH_SHORT).show()
             return
         }
@@ -72,13 +72,13 @@ class SignUpActivity : AppCompatActivity() {
             return
         }
         // If all credential are correct we call createUserWithEmailAndPassword using auth object and pass the email and pass in it.
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
+        firebaseAuth.createUserWithEmailAndPassword(username, password)
             .addOnCompleteListener(this) {
                 if (it.isSuccessful) {
 
                     Toast.makeText(this, "Signed in Successfully!", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
+                   // val intent = Intent(this, MainActivity::class.java)
+                    //startActivity(intent)
                     finish()
                 } else {
                     Toast.makeText(this, "Sing Up Failed!", Toast.LENGTH_SHORT).show()
