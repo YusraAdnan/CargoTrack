@@ -16,6 +16,7 @@ class SignUpActivity : AppCompatActivity() {
     //lateinit var etEmail: EditText
     lateinit var etUsername: EditText
     lateinit var etFullName: EditText
+    lateinit var etEmail: EditText
     lateinit var etPassword: EditText
     private lateinit var etConfirmPassword: EditText
     lateinit var btnLogin: Button
@@ -32,7 +33,8 @@ class SignUpActivity : AppCompatActivity() {
 
         //etEmail = findViewById(R.id.etEmail)
         etFullName = findViewById(R.id.etFullName)
-        etUsername = findViewById(R.id.etUserName)
+        etEmail =findViewById(R.id.etEmail)
+        etUsername = findViewById(R.id.etUsername)
         etPassword = findViewById(R.id.etPassword)
         etConfirmPassword = findViewById(R.id.etConfirmPassword)
         btnLogin = findViewById(R.id.btnLogin)
@@ -53,7 +55,7 @@ class SignUpActivity : AppCompatActivity() {
     private fun UserSignUp() {
         //val email = etEmail.text.toString()
         //val fullname = etFullName.text.toString()
-        val username = etUsername.text.toString()
+        val username = etEmail.text.toString().trim()
         val password = etPassword.text.toString()
         val confirmPassword = etConfirmPassword.text.toString()
 
