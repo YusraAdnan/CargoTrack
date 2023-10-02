@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "224163275272",
+    "project_id": "cargotrack-ba864",
+    "storage_bucket": "cargotrack-ba864.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224163275272:android:0344f15d6f453b875e27bd",
+        "android_client_info": {
+          "package_name": "com.cargotrack.cargotrack"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC02cjktk6UJDQlbkYX52wQKuoZ11uAinc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
