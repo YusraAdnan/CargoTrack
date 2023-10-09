@@ -53,8 +53,8 @@ class MainActivity : AppCompatActivity() {
         firebase.signInWithEmailAndPassword(email, pass).addOnCompleteListener(this) {
             if (it.isSuccessful) {
                Toast.makeText(this, "Login Succeeded", Toast.LENGTH_SHORT).show()
-               // val intent = Intent(this, HomePageActivity::class.java)
-               // startActivity(intent)
+                val intent = Intent(this, SelectionActivity::class.java)
+                startActivity(intent)
             } else
                 Toast.makeText(this, "Log In failed ", Toast.LENGTH_SHORT).show()
         }
