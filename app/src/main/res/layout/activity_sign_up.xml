@@ -8,12 +8,6 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="108dp"
-        android:layout_height="87dp"
-        android:layout_gravity="center_horizontal"
-        />
-
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/custom_edittext"
-            android:backgroundTint="@color/teal"
+            android:backgroundTint="@color/lightBlue"
             android:orientation="vertical"
             android:padding="24dp">
 
@@ -39,7 +33,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="60sp"
-                android:textStyle="normal" />
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/etEmail"
@@ -47,9 +41,9 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/custom_edittext"
-                android:backgroundTint="@color/teal"
+                android:backgroundTint="@color/darkBlue"
                 android:drawablePadding="8dp"
-                android:hint="Email"
+                android:text="   Email"
                 android:inputType="text"
                 android:padding="8dp"
                 android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
@@ -61,9 +55,9 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/custom_edittext"
-                android:backgroundTint="@color/teal"
+                android:backgroundTint="@color/darkBlue"
                 android:drawablePadding="8dp"
-                android:hint="Full Name"
+                android:text="   Full Name"
                 android:inputType="text"
                 android:padding="8dp"
                 android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
@@ -75,9 +69,9 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/custom_edittext"
-                android:backgroundTint="@color/teal"
+                android:backgroundTint="@color/darkBlue"
                 android:drawablePadding="8dp"
-                android:hint="username"
+                android:text="   Username"
                 android:inputType="text"
                 android:padding="8dp"
                 android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
@@ -89,10 +83,9 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/custom_edittext"
-                android:backgroundTint="@color/teal"
+                android:backgroundTint="@color/darkBlue"
                 android:drawablePadding="8dp"
-                android:hint="Password"
-                android:inputType="textPassword"
+                android:text="   Password"
                 android:padding="8dp"
                 android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
                 android:textColor="@color/white" />
@@ -103,33 +96,32 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/custom_edittext"
-                android:backgroundTint="@color/teal"
+                android:backgroundTint="@color/darkBlue"
                 android:drawablePadding="8dp"
-                android:hint="Confirm Password"
-                android:inputType="textPassword"
+                android:text="   Confirm Password"
                 android:padding="8dp"
                 android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
                 android:textColor="@color/white" />
 
             <Button
-                android:id="@+id/btnSignup"
+                android:id="@+id/btnBack"
                 android:layout_width="150dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="12dp"
-                android:backgroundTint="@color/darkTeal"
-                android:text="Sign Up"
+                android:backgroundTint="@color/mediumBlue"
+                android:text="Back"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:cornerRadius="20dp" />
 
             <Button
-                android:id="@+id/btnLogin"
+                android:id="@+id/btnSignup"
                 android:layout_width="150dp"
                 android:layout_height="60dp"
                 android:layout_gravity="right"
                 android:layout_marginTop="-61dp"
-                android:backgroundTint="@color/darkTeal"
-                android:text="Login"
+                android:backgroundTint="@color/mediumBlue"
+                android:text="Sign Up"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:cornerRadius="20dp" />
