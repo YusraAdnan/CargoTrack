@@ -104,12 +104,12 @@
                 android:textColor="@color/white" />
 
             <Button
-                android:id="@+id/btnBack"
+                android:id="@+id/btnLogin"
                 android:layout_width="150dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="12dp"
                 android:backgroundTint="@color/mediumBlue"
-                android:text="Back"
+                android:text="login"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:cornerRadius="20dp" />
