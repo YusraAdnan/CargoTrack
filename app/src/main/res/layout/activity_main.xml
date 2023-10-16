@@ -8,13 +8,20 @@
     android:gravity="center"
     android:background="@drawable/opscocean"
     >
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/logo"
+        android:layout_marginTop="-60dp"
+        />
 
     <TextView
         android:id="@+id/welcomeText"
         android:layout_width="395dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="-40dp"
         android:text="Cargo Track"
         android:textAlignment="center"
         android:textAllCaps="true"
@@ -30,13 +37,13 @@
         app:cardElevation="20dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="351dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:backgroundTint="@color/darkTeal"
             android:layout_gravity="center_horizontal"
-            android:padding="24dp"
-            >
+            android:background="@drawable/custom_edittext"
+            android:backgroundTint="@color/lightBlue"
+            android:orientation="vertical"
+            android:padding="24dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -55,9 +62,9 @@
                 android:background="@drawable/custom_edittext"
                 android:layout_marginTop="20dp"
                 android:padding="8dp"
-                android:backgroundTint="@color/teal"
+                android:backgroundTint="@color/darkBlue"
                 android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
-                android:hint="Username"
+                android:text="   Username"
                 android:textColor="@color/white"
                 android:drawablePadding="8dp"/>
 
@@ -67,35 +74,34 @@
                 android:id="@+id/etPassword"
                 android:background="@drawable/custom_edittext"
                 android:layout_marginTop="20dp"
-                android:inputType="textPassword"
-                android:backgroundTint="@color/teal"
+                android:backgroundTint="@color/darkBlue"
                 android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
                 android:padding="8dp"
-                android:hint="Password"
+                android:text="   Password"
                 android:textColor="@color/white"
                 android:drawablePadding="8dp"/>
-
-            <Button
-                android:id="@+id/btnLogin"
-                android:layout_width="196dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="@color/darkTeal"
-                android:text="Login"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                app:cornerRadius="20dp" />
 
             <Button
                 android:id="@+id/btnSignup"
                 android:layout_width="150dp"
                 android:layout_height="60dp"
-                android:layout_marginTop="5dp"
-                android:layout_gravity="center_horizontal"
-                android:backgroundTint="@color/darkTeal"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="@color/mediumBlue"
                 android:text="Sign Up"
-                android:textSize="18sp"
                 android:textColor="@color/white"
+                android:textSize="18sp"
+                app:cornerRadius="20dp" />
+
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="150dp"
+                android:layout_height="60dp"
+                android:layout_gravity="right"
+                android:layout_marginTop="-61dp"
+                android:backgroundTint="@color/mediumBlue"
+                android:text="Login"
+                android:textColor="@color/white"
+                android:textSize="18sp"
                 app:cornerRadius="20dp" />
 
         </LinearLayout>
