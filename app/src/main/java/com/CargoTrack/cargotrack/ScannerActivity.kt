@@ -3,6 +3,7 @@ package com.CargoTrack.cargotrack
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -33,6 +34,10 @@ class ScannerActivity : AppCompatActivity() {
     private lateinit var btnTakePhoto: Button
     private lateinit var imageview: ImageView
     private lateinit var viewFinder: PreviewView
+    private lateinit var convertToPdf: Button
+
+    private var bitmap: Bitmap? = null
+    var filepath:String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +46,7 @@ class ScannerActivity : AppCompatActivity() {
         btnTakePhoto = findViewById(R.id.btnTakePhoto)
         imageview = findViewById(R.id.imageview)
         viewFinder = findViewById(R.id.viewFinder)
-
+        convertToPdf = findViewById(R.id.BtnCnvertPdf)
 
         outputDirectory = getOutputDirectory() //gets file directory where all captred photos are stored
         if(allPermissionGranted()){
@@ -54,6 +59,13 @@ class ScannerActivity : AppCompatActivity() {
         }
           btnTakePhoto.setOnClickListener{
             takePhoto()
+        }
+        val intent = Intent(this, PDFActivity::class.java)
+
+        convertToPdf.setOnClickListener {
+
+            intent.putExtra("FilePath", filepath)//getting file path of taken picture from ImageCapture sending it to PDFActivity
+            startActivity(intent)
         }
     }
     private fun getOutputDirectory(): File{
@@ -85,7 +97,8 @@ class ScannerActivity : AppCompatActivity() {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     //saves captured picture in the file directory
                     val savedUri = Uri.fromFile(photoFile)
-                    val bitmap = BitmapFactory.decodeFile(photoFile.absolutePath) //decodes image file specified by photofile and converts to bitmap
+                    filepath = photoFile.absolutePath// this is used to send the file path to the next activity as the bitmap cannot be sent through intent
+                    bitmap = BitmapFactory.decodeFile(photoFile.absolutePath) //decodes image file specified by photofile and converts to bitmap
                     imageview.setImageBitmap(bitmap)
                     val msg = "Photo Saved"
                     Toast.makeText(this@ScannerActivity,
