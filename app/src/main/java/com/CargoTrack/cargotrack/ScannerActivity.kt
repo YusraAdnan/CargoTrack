@@ -12,6 +12,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -21,8 +22,17 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.CargoTrack.cargotrack.Client.ApiClient
+import com.CargoTrack.cargotrack.Model.ApiResponse
 import com.cargotrack.cargotrack.R
 import com.cargotrack.cargotrack.databinding.ActivityMainBinding
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,13 +42,15 @@ class ScannerActivity : AppCompatActivity() {
     private  var imageCapture: ImageCapture?=null
     private lateinit var outputDirectory: File
     private lateinit var btnTakePhoto: Button
+    private lateinit var buttonSendPic: Button
     private lateinit var imageview: ImageView
     private lateinit var viewFinder: PreviewView
     private lateinit var convertToPdf: Button
-
+    var BitmapPictureSend: Bitmap? = null
+    private var compositeDisposable = CompositeDisposable()
     private var bitmap: Bitmap? = null
     var filepath:String? = null
-
+    private lateinit var textView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +59,8 @@ class ScannerActivity : AppCompatActivity() {
         imageview = findViewById(R.id.imageview)
         viewFinder = findViewById(R.id.viewFinder)
         convertToPdf = findViewById(R.id.BtnCnvertPdf)
+        textView = findViewById(R.id.textViewExtractText)
+        buttonSendPic = findViewById(R.id.buttonsend)
 
         outputDirectory = getOutputDirectory() //gets file directory where all captred photos are stored
         if(allPermissionGranted()){
@@ -67,6 +81,41 @@ class ScannerActivity : AppCompatActivity() {
             intent.putExtra("FilePath", filepath)//getting file path of taken picture from ImageCapture sending it to PDFActivity
             startActivity(intent)
         }
+        val imageFileName = "horizontaldummypic"
+        val resourceId = resources.getIdentifier(imageFileName, "drawable", packageName)
+        if (resourceId != 0) {
+            BitmapPictureSend = BitmapFactory.decodeResource(resources, resourceId)
+            imageview.setImageBitmap(BitmapPictureSend)
+        }
+        buttonSendPic.setOnClickListener { BitmapPictureSend?.let { it1 -> sendImage(it1) } }
+
+    }
+    fun sendImage(bitmap: Bitmap) {
+
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        val byteArray = byteArrayOutputStream.toByteArray()
+
+        //https://www.youtube.com/watch?v=aY9xsGMlC5c
+        val requestFile = RequestBody.create(MediaType.parse("image/jpeg"),byteArray)//request body showing data in binary format
+        val body = MultipartBody.Part.createFormData("image","image.jpg", requestFile)
+        Log.e("Enter Message","Entered the sendImage function")
+
+        val apiService = ApiClient.buildService()
+        compositeDisposable.add(
+            apiService.SendImage(body)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(
+                    { response: ApiResponse ->
+                        val extractedText = response.extractedText
+                        textView.text = extractedText
+                        //  val resp = bitmap.let { ImageRequest(it) }?.let { apiService.sendImage(bitmap) }
+                    }, {error: Throwable ->
+                        Log.e("SendingImageError","Error sending image: ${error.message}")
+
+                    }
+                ))
     }
     private fun getOutputDirectory(): File{
         val mediaDir = externalMediaDirs.firstOrNull()?.let { mFile ->
@@ -99,7 +148,8 @@ class ScannerActivity : AppCompatActivity() {
                     val savedUri = Uri.fromFile(photoFile)
                     filepath = photoFile.absolutePath// this is used to send the file path to the next activity as the bitmap cannot be sent through intent
                     bitmap = BitmapFactory.decodeFile(photoFile.absolutePath) //decodes image file specified by photofile and converts to bitmap
-                    imageview.setImageBitmap(bitmap)
+                    //imageview.setImageBitmap(bitmap) //uncomment when not using dummy data
+
                     val msg = "Photo Saved"
                     Toast.makeText(this@ScannerActivity,
                         "$msg $savedUri",
