@@ -132,11 +132,11 @@ class ScannerActivity : AppCompatActivity() {
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                     { response: ApiResponse ->
-                        val extractedText = response.extractedText
-                        textView.text = extractedText
-                        Log.e("SuccessSending", "returned text: $extractedText")
+                        val text = response.text
+                        textView.text = text
+                        Log.e("SuccessSending", "returned text: $text")
 
-                        //  val resp = bitmap.let { ImageRequest(it) }?.let { apiService.sendImage(bitmap) }
+
                     }, { error: Throwable ->
                         Log.e("SendingImageError", "Error sending image: ${error.message}")
 
