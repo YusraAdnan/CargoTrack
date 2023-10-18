@@ -26,13 +26,13 @@
             android:name="com.CargoTrack.cargotrack.ScannerActivity"
             android:exported="false" />
         <activity
-            android:name="com.CargoTrack.cargotrack.SelectionActivity"
+            android:name="com.CargoTrack.cargotrack.MainActivity"
             android:exported="false" />
         <activity
             android:name="com.CargoTrack.cargotrack.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name="com.CargoTrack.cargotrack.MainActivity"
+            android:name="com.CargoTrack.cargotrack.SelectionActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

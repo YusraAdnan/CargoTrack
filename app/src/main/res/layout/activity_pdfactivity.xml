@@ -1,50 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/lightBlue"
     tools:context="com.CargoTrack.cargotrack.PDFActivity">
 
     <!--on below line we are creating
         a simple text view for heading-->
     <TextView
         android:id="@+id/idTVHead"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="25dp"
         android:gravity="center"
         android:padding="8dp"
         android:text="PDF Generator"
         android:textAlignment="center"
-        android:textColor="@color/purple_200"
+        android:textColor="@color/darkBlue"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/imageviewPDf"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!--on below line we are creating a
         button to generate a pdf file-->
+
+
     <Button
         android:id="@+id/idBtnGeneratePdf"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="222dp"
+        android:layout_height="0dp"
         android:layout_centerInParent="true"
-        android:layout_margin="20dp"
+        android:layout_marginBottom="176dp"
+        android:backgroundTint="@color/darkBlue"
         android:padding="4dp"
-        android:text="Generate PDF"
-        android:textAllCaps="false" />
+        android:text="Download PDF"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageviewPDf" />
 
+    <TextView
+        android:id="@+id/textViewExtractText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="152dp"
+        android:layout_marginBottom="292dp"
+        android:text="CLU l 552334"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/imageviewPDf"
-        android:layout_width="400dp"
-        android:layout_height="303dp"
-        android:layout_marginTop="400dp"
-
-        />
-
-
-</RelativeLayout>
+        android:layout_width="0dp"
+        android:src="@drawable/horizontaldummypic"
+        android:layout_height="300dp"
+        android:layout_marginBottom="116dp"
+        app:layout_constraintBottom_toTopOf="@+id/idBtnGeneratePdf"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idTVHead" />
+</androidx.constraintlayout.widget.ConstraintLayout>

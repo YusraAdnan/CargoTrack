@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightBlue"
     tools:context="com.CargoTrack.cargotrack.ScannerActivity">
 
     <androidx.camera.view.PreviewView
@@ -22,44 +23,51 @@
         android:id="@+id/btnTakePhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="252dp"
-        android:layout_marginBottom="16dp"
-        android:text="Take Photo"
+        android:layout_marginEnd="136dp"
+        android:layout_marginBottom="96dp"
+        android:backgroundTint="@color/darkBlue"
+        android:text="Capture Photo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/BtnCnvertPdf"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="16dp"
-        android:text="Generate PDF"
+        android:layout_width="86dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="668dp"
+        android:backgroundTint="@color/darkBlue"
+        android:src="@drawable/baseline_picture_as_pdf_24"
+        android:text="PDF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
     <Button
         android:id="@+id/buttonsend"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginEnd="164dp"
+        android:layout_marginBottom="48dp"
+        android:backgroundTint="@color/darkBlue"
         android:text="Predict"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
     <TextView
         android:id="@+id/textViewExtractText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="136dp"
-        android:layout_marginBottom="77dp"
-        android:text="TextView"
+        android:layout_marginEnd="144dp"
+        android:layout_marginBottom="20dp"
+        android:text="CLU l 552334"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/imageview"
-        android:layout_width="341dp"
-        android:layout_height="266dp"
+        android:layout_width="300dp"
+        android:layout_height="246dp"
         android:layout_marginBottom="160dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

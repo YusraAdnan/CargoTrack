@@ -1,6 +1,7 @@
 package com.CargoTrack.cargotrack
 
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -14,6 +15,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import okhttp3.MediaType
+
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -22,24 +25,26 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
+import com.CargoTrack.cargotrack.API.ApiService
 import com.CargoTrack.cargotrack.Client.ApiClient
 import com.CargoTrack.cargotrack.Model.ApiResponse
+import com.CargoTrack.cargotrack.Model.ImageRequest
 import com.cargotrack.cargotrack.R
 import com.cargotrack.cargotrack.databinding.ActivityMainBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import java.io.ByteArrayOutputStream
-import java.io.File
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ScannerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private  var imageCapture: ImageCapture?=null
+    private var imageCapture: ImageCapture? = null
     private lateinit var outputDirectory: File
     private lateinit var btnTakePhoto: Button
     private lateinit var buttonSendPic: Button
@@ -49,7 +54,7 @@ class ScannerActivity : AppCompatActivity() {
     var BitmapPictureSend: Bitmap? = null
     private var compositeDisposable = CompositeDisposable()
     private var bitmap: Bitmap? = null
-    var filepath:String? = null
+    var filepath: String? = null
     private lateinit var textView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,23 +67,27 @@ class ScannerActivity : AppCompatActivity() {
         textView = findViewById(R.id.textViewExtractText)
         buttonSendPic = findViewById(R.id.buttonsend)
 
-        outputDirectory = getOutputDirectory() //gets file directory where all captred photos are stored
-        if(allPermissionGranted()){
+        outputDirectory =
+            getOutputDirectory() //gets file directory where all captred photos are stored
+        if (allPermissionGranted()) {
             startCamera()
-        }else{
+        } else {
             ActivityCompat.requestPermissions(
                 this, Constants.REQUIRED_PERMISSIONS,
                 Constants.REQUEST_CODE_PERMISSIONS
             )
         }
-          btnTakePhoto.setOnClickListener{
+        btnTakePhoto.setOnClickListener {
             takePhoto()
         }
         val intent = Intent(this, PDFActivity::class.java)
 
         convertToPdf.setOnClickListener {
 
-            intent.putExtra("FilePath", filepath)//getting file path of taken picture from ImageCapture sending it to PDFActivity
+            intent.putExtra(
+                "FilePath",
+                filepath
+            )//getting file path of taken picture from ImageCapture sending it to PDFActivity
             startActivity(intent)
         }
         val imageFileName = "horizontaldummypic"
@@ -90,33 +99,81 @@ class ScannerActivity : AppCompatActivity() {
         buttonSendPic.setOnClickListener { BitmapPictureSend?.let { it1 -> sendImage(it1) } }
 
     }
+
     fun sendImage(bitmap: Bitmap) {
 
         val byteArrayOutputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
         val byteArray = byteArrayOutputStream.toByteArray()
-
+        var imageUri: Uri? = null
+        val imageResourceId = R.drawable.horizontaldummypic
+        imageUri = Uri.parse("android.resource://com.cargotrack.cargotrack/${imageResourceId}")
+        val imageFile = uriToFile(imageUri, this.cacheDir,"dummybarcode.jpg" )
+        val imageRequest = ImageRequest(sentfile = imageFile.toString())
+        // val imagePart = imageRequest.sentfile?.let { ApiService.creatImageUri(applicationContext, it.toUri(), "image") }
         //https://www.youtube.com/watch?v=aY9xsGMlC5c
-        val requestFile = RequestBody.create(MediaType.parse("image/jpeg"),byteArray)//request body showing data in binary format
-        val body = MultipartBody.Part.createFormData("image","image.jpg", requestFile)
-        Log.e("Enter Message","Entered the sendImage function")
+        /* val requestFile = RequestBody.create(MediaType.parse("image/jpeg"),byteArray)//request body showing data in binary format
+        val body = MultipartBody.Part.createFormData("image","image.jpg", requestFile)*/
 
+           val requestBody = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart(
+                    "sentfile",
+                    imageFile.name,
+                    RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
+                )
+                .build()
+
+        Log.e("Enter Message", "Entered the sendImage function")
         val apiService = ApiClient.buildService()
-        compositeDisposable.add(
-            apiService.SendImage(body)
+        requestBody?.let {
+            apiService.SendImage(it)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                     { response: ApiResponse ->
                         val extractedText = response.extractedText
                         textView.text = extractedText
+                        Log.e("SuccessSending", "returned text: $extractedText")
+
                         //  val resp = bitmap.let { ImageRequest(it) }?.let { apiService.sendImage(bitmap) }
-                    }, {error: Throwable ->
-                        Log.e("SendingImageError","Error sending image: ${error.message}")
+                    }, { error: Throwable ->
+                        Log.e("SendingImageError", "Error sending image: ${error.message}")
 
                     }
-                ))
+                )
+        }?.let {
+            compositeDisposable.add(
+                it
+            )
+        }
+
     }
+
+    fun uriToFile(uri: Uri, directory: File, fileName: String): File {
+
+        val file = File(directory, fileName)
+        file.createNewFile()
+        try {
+            val inputStream: InputStream? = this.contentResolver.openInputStream(uri)
+            if (inputStream != null) {
+                val outputStream: OutputStream = FileOutputStream(file)
+                val buffer = ByteArray(1024)
+                var bytesRead: Int
+                while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+                    outputStream.write(buffer, 0, bytesRead)
+                }
+                inputStream.close()
+                outputStream.close()
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        return file
+    }
+
+
     private fun getOutputDirectory(): File{
         val mediaDir = externalMediaDirs.firstOrNull()?.let { mFile ->
             File(mFile, resources.getString(R.string.app_name)).apply{

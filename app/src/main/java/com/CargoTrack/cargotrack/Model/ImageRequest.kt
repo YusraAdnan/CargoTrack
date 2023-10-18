@@ -1,5 +1,5 @@
 package com.CargoTrack.cargotrack.Model
 
-import android.graphics.Bitmap
+import android.net.Uri
 
-data class ImageRequest(val image: Bitmap)
+data class ImageRequest(val sentfile: String)
