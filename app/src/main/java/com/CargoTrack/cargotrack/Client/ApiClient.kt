@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 
 object ApiClient {
 
-    const val BASE_URL = "https://ocr-api.azurewebsites.net/"
+    const val BASE_URL = "https://iso-ocr.azurewebsites.net/"
 
     /*val client = OkHttpClient()
         .newBuilder()

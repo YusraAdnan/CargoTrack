@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
@@ -43,7 +44,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ScannerActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+
     private var imageCapture: ImageCapture? = null
     private lateinit var outputDirectory: File
     private lateinit var btnTakePhoto: Button
@@ -51,12 +52,14 @@ class ScannerActivity : AppCompatActivity() {
     private lateinit var imageview: ImageView
     private lateinit var viewFinder: PreviewView
     private lateinit var convertToPdf: Button
-    var BitmapPictureSend: Bitmap? = null
+    var CapturePictureFile: File? = null
     private var compositeDisposable = CompositeDisposable()
     private var bitmap: Bitmap? = null
     var filepath: String? = null
     private lateinit var textView: TextView
-
+    var CapturePicUri: Uri? = null
+    var CapturePicUriToFile: Uri? = null
+    var savedUri: Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scanner)
@@ -90,39 +93,32 @@ class ScannerActivity : AppCompatActivity() {
             )//getting file path of taken picture from ImageCapture sending it to PDFActivity
             startActivity(intent)
         }
-        val imageFileName = "horizontaldummypic"
-        val resourceId = resources.getIdentifier(imageFileName, "drawable", packageName)
-        if (resourceId != 0) {
+       // val imageFileName = "horizontaldummypic"
+       // val resourceId = resources.getIdentifier(imageFileName, "drawable", packageName)
+        /*if (resourceId != 0) {
             BitmapPictureSend = BitmapFactory.decodeResource(resources, resourceId)
             imageview.setImageBitmap(BitmapPictureSend)
-        }
-        buttonSendPic.setOnClickListener { BitmapPictureSend?.let { it1 -> sendImage(it1) } }
+        }*/
+        buttonSendPic.setOnClickListener { CapturePictureFile?.let { it1 -> sendImage(it1) } }
 
     }
 
-    fun sendImage(bitmap: Bitmap) {
+    fun sendImage(file: File) {
 
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-        val byteArray = byteArrayOutputStream.toByteArray()
-        var imageUri: Uri? = null
-        val imageResourceId = R.drawable.horizontaldummypic
-        imageUri = Uri.parse("android.resource://com.cargotrack.cargotrack/${imageResourceId}")
-        val imageFile = uriToFile(imageUri, this.cacheDir,"dummybarcode.jpg" )
-        val imageRequest = ImageRequest(sentfile = imageFile.toString())
-        // val imagePart = imageRequest.sentfile?.let { ApiService.creatImageUri(applicationContext, it.toUri(), "image") }
-        //https://www.youtube.com/watch?v=aY9xsGMlC5c
-        /* val requestFile = RequestBody.create(MediaType.parse("image/jpeg"),byteArray)//request body showing data in binary format
-        val body = MultipartBody.Part.createFormData("image","image.jpg", requestFile)*/
-
-           val requestBody = MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart(
-                    "sentfile",
-                    imageFile.name,
-                    RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
-                )
-                .build()
+        val imageFile = bitmap?.let {
+            bitmapToFile(applicationContext, it,"sentfile" )
+        }
+           val requestBody =
+               imageFile?.let { RequestBody.create("image/*".toMediaTypeOrNull(), it) }?.let {
+                   MultipartBody.Builder()
+                       .setType(MultipartBody.FORM)
+                       .addFormDataPart(
+                           "sentfile",
+                           imageFile?.name,
+                           it
+                       )
+                       .build()
+               }
 
         Log.e("Enter Message", "Entered the sendImage function")
         val apiService = ApiClient.buildService()
@@ -172,8 +168,6 @@ class ScannerActivity : AppCompatActivity() {
 
         return file
     }
-
-
     private fun getOutputDirectory(): File{
         val mediaDir = externalMediaDirs.firstOrNull()?.let { mFile ->
             File(mFile, resources.getString(R.string.app_name)).apply{
@@ -183,8 +177,27 @@ class ScannerActivity : AppCompatActivity() {
         return if (mediaDir != null && mediaDir.exists())
             mediaDir else filesDir
     }
+    fun bitmapToFile(context: Context, bitmap: Bitmap, fileName: String): File? {
+        val imagesDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val imageFile = File(imagesDir, fileName)
+
+        try {
+            val outputStream: OutputStream = FileOutputStream(imageFile)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            outputStream.flush()
+            outputStream.close()
+            return imageFile
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        return null
+    }
     private fun takePhoto(){
         val imageCapture =imageCapture?: return
+        val fileName = SimpleDateFormat(Constants.FILE_NAME_FORMAT, Locale.getDefault())
+            .format(System.currentTimeMillis()) + ".jpg"
+
         val photoFile = File(
             outputDirectory, SimpleDateFormat(Constants.FILE_NAME_FORMAT,
                 Locale.getDefault()).
@@ -202,10 +215,18 @@ class ScannerActivity : AppCompatActivity() {
             object: ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     //saves captured picture in the file directory
-                    val savedUri = Uri.fromFile(photoFile)
+                    savedUri = Uri.fromFile(photoFile)
                     filepath = photoFile.absolutePath// this is used to send the file path to the next activity as the bitmap cannot be sent through intent
-                    bitmap = BitmapFactory.decodeFile(photoFile.absolutePath) //decodes image file specified by photofile and converts to bitmap
-                    //imageview.setImageBitmap(bitmap) //uncomment when not using dummy data
+
+                   val capturedBitmap = BitmapFactory.decodeFile(photoFile.absolutePath) //decodes image file specified by photofile and converts to bitmap
+                   imageview.setImageBitmap(bitmap) //uncomment when not using dummy data
+                    bitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
+                    imageview.setImageBitmap(bitmap) //uncomment when not using dummy data
+                    val imageFile = bitmapToFile(applicationContext, capturedBitmap,fileName.toString() )
+                    if(imageFile != null)
+                    {
+                        sendImage(imageFile)
+                    }
 
                     val msg = "Photo Saved"
                     Toast.makeText(this@ScannerActivity,

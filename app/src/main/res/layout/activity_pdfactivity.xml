@@ -31,22 +31,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--on below line we are creating a
-        button to generate a pdf file-->
-
-
     <Button
         android:id="@+id/idBtnGeneratePdf"
-        android:layout_width="222dp"
-        android:layout_height="0dp"
+        android:layout_width="230dp"
+        android:layout_height="93dp"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="176dp"
         android:backgroundTint="@color/darkBlue"
         android:padding="4dp"
         android:text="Download PDF"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageviewPDf" />
 
@@ -54,8 +50,8 @@
         android:id="@+id/textViewExtractText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="152dp"
-        android:layout_marginBottom="292dp"
+        android:layout_marginEnd="176dp"
+        android:layout_marginBottom="36dp"
         android:text="CLU l 552334"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -63,12 +59,13 @@
 
     <ImageView
         android:id="@+id/imageviewPDf"
-        android:layout_width="0dp"
-        android:src="@drawable/horizontaldummypic"
-        android:layout_height="300dp"
-        android:layout_marginBottom="116dp"
+        android:layout_width="381dp"
+
+        android:layout_height="244dp"
+        android:layout_marginBottom="-100dp"
         app:layout_constraintBottom_toTopOf="@+id/idBtnGeneratePdf"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/idTVHead" />
 </androidx.constraintlayout.widget.ConstraintLayout>
