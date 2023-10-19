@@ -3,6 +3,7 @@ package com.CargoTrack.cargotrack
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import com.google.firebase.FirebaseApp
 import android.widget.Button
 import android.widget.EditText
@@ -60,4 +61,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
     //__________________________end___________________________
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.settings_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
 }
