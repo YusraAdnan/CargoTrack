@@ -20,25 +20,37 @@
         android:theme="@style/Theme.CargoTrack"
         tools:targetApi="31">
         <activity
+            android:name="com.CargoTrack.cargotrack.SettingsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName="com.CargoTrack.cargotrack.SelectionActivity"/>
+        <activity
             android:name="com.CargoTrack.cargotrack.PDFActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName="com.CargoTrack.cargotrack.SelectionActivity"/>
         <activity
             android:name="com.CargoTrack.cargotrack.ScannerActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName="com.CargoTrack.cargotrack.SelectionActivity"/>
         <activity
             android:name="com.CargoTrack.cargotrack.MainActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.CargoTrack.cargotrack.SignUpActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.CargoTrack.cargotrack.SelectionActivity"
-            android:exported="true">
+            android:exported="true"
+            android:parentActivityName="com.CargoTrack.cargotrack.SignUpActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.CargoTrack.cargotrack.SignUpActivity"
+            android:exported="false"
+            android:parentActivityName="com.CargoTrack.cargotrack.SelectionActivity"/>
+        <activity
+            android:name="com.CargoTrack.cargotrack.SelectionActivity"
+            android:exported="false"
+            android:parentActivityName="com.CargoTrack.cargotrack.ScannerActivity">
+
         </activity>
     </application>
 

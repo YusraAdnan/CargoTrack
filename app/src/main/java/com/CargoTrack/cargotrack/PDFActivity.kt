@@ -7,7 +7,6 @@ import android.graphics.pdf.PdfDocument
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
@@ -38,7 +37,7 @@ class PDFActivity : AppCompatActivity() {
         if(!filepath.isNullOrBlank())
         {
             bitmap = BitmapFactory.decodeResource(resources, R.drawable.dummybarcode)
-            //bitmap = BitmapFactory.decodeFile(filepath)//converts filepath back to bitmap
+            // bitmap = BitmapFactory.decodeFile(filepath)//converts filepath back to bitmap
             imageView?.setImageBitmap(bitmap)
             bitmap?.let {
                 scaledbmp = Bitmap.createScaledBitmap(it, 140, 140, false)
@@ -101,18 +100,20 @@ class PDFActivity : AppCompatActivity() {
          }
          val uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
  */
-
         // PDF file and its path.
         val file: File = File(getExternalFilesDir(null), "GFG.pdf")
         try {
+
             pdfPictureDocument.writeTo(FileOutputStream(file))
+
+
             if (!isActivityDestroyed) {
                 Toast.makeText(applicationContext, "PDF file generated..", Toast.LENGTH_SHORT).show()
-                Log.e("PDF","successfully generated pdf")
             }        } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(applicationContext, "Fail to generate PDF file: ${e.message}", Toast.LENGTH_SHORT).show()
         }
+
         pdfPictureDocument.close()
     }
     fun checkPermissions(): Boolean {
@@ -145,12 +146,19 @@ class PDFActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
         if (requestCode == PERMISSION_CODE) {
+
             if (grantResults.size > 0) {
+
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1]
                     == PackageManager.PERMISSION_GRANTED) {
+
                     Toast.makeText(this, "Permission Granted..", Toast.LENGTH_SHORT).show()
+
                 } else {
+
+
                     Toast.makeText(this, "Permission Denied..", Toast.LENGTH_SHORT).show()
                     finish()
                 }
