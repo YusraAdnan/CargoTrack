@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import com.google.firebase.FirebaseApp
 import android.widget.Button
 import android.widget.EditText
@@ -65,5 +66,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.settings_menu, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.action_settings->{
+                val intent = Intent(this,SettingsActivity::class.java)
+           startActivity(intent)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

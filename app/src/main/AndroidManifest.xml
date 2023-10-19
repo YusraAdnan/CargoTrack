@@ -31,18 +31,20 @@
             android:exported="false" />
         <activity
             android:name="com.CargoTrack.cargotrack.MainActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.CargoTrack.cargotrack.SignUpActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.CargoTrack.cargotrack.SelectionActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.CargoTrack.cargotrack.SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.CargoTrack.cargotrack.SelectionActivity"
+            android:exported="false">
+
         </activity>
     </application>
 
