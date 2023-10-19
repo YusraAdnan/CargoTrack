@@ -17,15 +17,7 @@
 <!--        android:textColor="@color/white"-->
 <!--        />-->
 
-    <Button
-        android:layout_width="73dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginLeft="34dp"
-        android:layout_marginTop="-45dp"
-        android:backgroundTint="@color/cardview_shadow_start_color"
-        android:drawableLeft="@drawable/baseline_menu_24"
-        android:id="@+id/btnSettings"/>
+
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -98,17 +90,6 @@
 
     </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/backButton"
-        android:layout_width="100dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="-10dp"
-        android:backgroundTint="@color/mediumBlue"
-        android:layout_gravity="center_horizontal"
-        android:text="Back"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:cornerRadius="20dp"/>
+
 
 </LinearLayout>

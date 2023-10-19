@@ -63,18 +63,5 @@ class MainActivity : AppCompatActivity() {
     }
     //__________________________end___________________________
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.settings_menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.action_settings->{
-                val intent = Intent(this,SettingsActivity::class.java)
-           startActivity(intent)
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
 }
