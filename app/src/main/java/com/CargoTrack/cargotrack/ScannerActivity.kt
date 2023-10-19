@@ -48,17 +48,13 @@ class ScannerActivity : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
     private lateinit var outputDirectory: File
     private lateinit var btnTakePhoto: Button
-    private lateinit var buttonSendPic: Button
     private lateinit var imageview: ImageView
     private lateinit var viewFinder: PreviewView
     private lateinit var convertToPdf: Button
-    var CapturePictureFile: File? = null
     private var compositeDisposable = CompositeDisposable()
     private var bitmap: Bitmap? = null
     var filepath: String? = null
     private lateinit var textView: TextView
-    var CapturePicUri: Uri? = null
-    var CapturePicUriToFile: Uri? = null
     var savedUri: Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +64,6 @@ class ScannerActivity : AppCompatActivity() {
         viewFinder = findViewById(R.id.viewFinder)
         convertToPdf = findViewById(R.id.BtnCnvertPdf)
         textView = findViewById(R.id.textViewExtractText)
-        buttonSendPic = findViewById(R.id.buttonsend)
 
         outputDirectory =
             getOutputDirectory() //gets file directory where all captred photos are stored
@@ -99,10 +94,7 @@ class ScannerActivity : AppCompatActivity() {
             BitmapPictureSend = BitmapFactory.decodeResource(resources, resourceId)
             imageview.setImageBitmap(BitmapPictureSend)
         }*/
-        buttonSendPic.setOnClickListener { CapturePictureFile?.let { it1 -> sendImage(it1) } }
-
     }
-
     fun sendImage(file: File) {
 
         val imageFile = bitmap?.let {

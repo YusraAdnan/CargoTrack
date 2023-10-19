@@ -9,9 +9,9 @@
 
     <androidx.camera.view.PreviewView
         android:id="@+id/viewFinder"
-        android:layout_width="370dp"
-        android:layout_height="264dp"
-        android:layout_marginTop="60dp"
+        android:layout_width="392dp"
+        android:layout_height="340dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toTopOf="@+id/imageview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
@@ -19,57 +19,51 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.315" />
 
+
     <Button
         android:id="@+id/btnTakePhoto"
-        android:layout_width="105dp"
-        android:layout_height="52dp"
-        android:layout_marginEnd="284dp"
-        android:layout_marginBottom="92dp"
-        android:backgroundTint="@color/darkBlue"
+        android:layout_width="180dp"
+        android:layout_height="57dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="68dp"
+        android:backgroundTint="@color/mediumBlue"
         android:text="Capture Photo"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/BtnCnvertPdf"
-        android:layout_width="86dp"
-        android:layout_height="45dp"
-        android:layout_marginEnd="308dp"
-        android:layout_marginBottom="48dp"
-        android:backgroundTint="@color/darkBlue"
+        android:layout_width="70dp"
+        android:layout_height="42dp"
+        android:layout_marginEnd="304dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/mediumBlue"
         android:src="@drawable/baseline_picture_as_pdf_24"
         android:text="PDF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/buttonsend"
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="172dp"
-        android:layout_marginBottom="12dp"
-        android:backgroundTint="@color/darkBlue"
-        android:text="Predict"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/textViewExtractText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="112dp"
-        android:layout_marginBottom="92dp"
+        android:layout_width="178dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="88dp"
+        android:layout_marginBottom="32dp"
         android:text="predicted text"
-        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/imageview"
-        android:layout_width="300dp"
-        android:layout_height="246dp"
-        android:layout_marginBottom="160dp"
+        android:layout_width="390dp"
+        android:layout_height="240dp"
+        android:layout_marginBottom="132dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
