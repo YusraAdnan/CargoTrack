@@ -7,13 +7,17 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.preference.PreferenceManager
 import com.cargotrack.cargotrack.R
+import com.cargotrack.cargotrack.databinding.ActivityMainBinding
 
 class SelectionActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
     private lateinit var takePicture: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(R.layout.action_selection)
 
         takePicture = findViewById(R.id.takeAPhoto)
@@ -21,6 +25,12 @@ class SelectionActivity : AppCompatActivity() {
             val  intent = Intent(this, ScannerActivity::class.java)
             startActivity(intent)
         }
+
+        mySettings()
+    }
+
+    private fun mySettings(){
+
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.settings_menu, menu)
