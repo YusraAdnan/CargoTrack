@@ -87,6 +87,10 @@ class ScannerActivity : AppCompatActivity() {
             intent.putExtra(
                 "FilePath",
                 filepath
+            )
+            intent.putExtra(
+                "ExtractedText",
+                textView.text.toString()
             )//getting file path of taken picture from ImageCapture sending it to PDFActivity
             startActivity(intent)
         }
@@ -140,28 +144,6 @@ class ScannerActivity : AppCompatActivity() {
 
     }
 
-    fun uriToFile(uri: Uri, directory: File, fileName: String): File {
-
-        val file = File(directory, fileName)
-        file.createNewFile()
-        try {
-            val inputStream: InputStream? = this.contentResolver.openInputStream(uri)
-            if (inputStream != null) {
-                val outputStream: OutputStream = FileOutputStream(file)
-                val buffer = ByteArray(1024)
-                var bytesRead: Int
-                while (inputStream.read(buffer).also { bytesRead = it } != -1) {
-                    outputStream.write(buffer, 0, bytesRead)
-                }
-                inputStream.close()
-                outputStream.close()
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-
-        return file
-    }
     private fun getOutputDirectory(): File{
         val mediaDir = externalMediaDirs.firstOrNull()?.let { mFile ->
             File(mFile, resources.getString(R.string.app_name)).apply{

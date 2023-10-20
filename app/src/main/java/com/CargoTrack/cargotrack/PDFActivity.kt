@@ -12,6 +12,7 @@ import android.os.Environment
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +30,7 @@ class PDFActivity : AppCompatActivity() {
     var scaledbmp :Bitmap?=null
     private var isActivityDestroyed = false
     lateinit var generatePDFBtn: Button
-
+    lateinit var retreivedText : TextView
     var PERMISSION_CODE = 101
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,11 +39,13 @@ class PDFActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pdfactivity)
         imageView = findViewById(R.id.imageviewPDf)
-
-
-        bitmap = BitmapFactory.decodeResource(resources, R.drawable.horizontaldummypic)
-        // bitmap = BitmapFactory.decodeFile(filepath)//converts filepath back to bitmap
+        retreivedText = findViewById(R.id.textViewExtractText)
+        val filepath = intent.getStringExtra("FilePath")
+        val receivedText = intent.getStringExtra("ExtractedText")
+       // bitmap = BitmapFactory.decodeResource(resources, R.drawable.horizontaldummypic)
+         bitmap = BitmapFactory.decodeFile(filepath)//converts filepath back to bitmap
         imageView?.setImageBitmap(bitmap)
+        retreivedText.text=receivedText
         bitmap?.let {
             scaledbmp = Bitmap.createScaledBitmap(it, 140, 140, false)
         }
