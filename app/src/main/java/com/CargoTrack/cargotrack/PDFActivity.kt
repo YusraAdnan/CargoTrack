@@ -1,16 +1,20 @@
 package com.CargoTrack.cargotrack
 
-import android.Manifest
+
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.graphics.pdf.PdfDocument
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.cargotrack.cargotrack.R
@@ -18,46 +22,42 @@ import java.io.File
 import java.io.FileOutputStream
 
 class PDFActivity : AppCompatActivity() {
-    private lateinit var imageView: ImageView
-    private lateinit var bitmap: Bitmap
-    var scaledbmp :Bitmap?=null
-    private var isActivityDestroyed = false
-    var PERMISSION_CODE = 101
+    private var imageView: ImageView? = null
     var pageHeight = 1120
     var pageWidth = 792
-    override fun onCreate(savedInstanceState: Bundle?) {
-        lateinit var generatePDFBtn: Button
-        isActivityDestroyed = false
+    var bitmap :Bitmap?=null
+    var scaledbmp :Bitmap?=null
+    private var isActivityDestroyed = false
+    lateinit var generatePDFBtn: Button
 
+    var PERMISSION_CODE = 101
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+
+        isActivityDestroyed = false
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pdfactivity)
         imageView = findViewById(R.id.imageviewPDf)
 
-        val filepath = intent.getStringExtra("FilePath")
-        if(!filepath.isNullOrBlank())
-        {
-            bitmap = BitmapFactory.decodeResource(resources, R.drawable.dummybarcode)
-            // bitmap = BitmapFactory.decodeFile(filepath)//converts filepath back to bitmap
-            imageView?.setImageBitmap(bitmap)
-            bitmap?.let {
-                scaledbmp = Bitmap.createScaledBitmap(it, 140, 140, false)
-            }
+
+        bitmap = BitmapFactory.decodeResource(resources, R.drawable.horizontaldummypic)
+        // bitmap = BitmapFactory.decodeFile(filepath)//converts filepath back to bitmap
+        imageView?.setImageBitmap(bitmap)
+        bitmap?.let {
+            scaledbmp = Bitmap.createScaledBitmap(it, 140, 140, false)
         }
+        // }
         generatePDFBtn = findViewById(R.id.idBtnGeneratePdf)
         if (checkPermissions()) {
-            // if permission is granted we are displaying a toast message.
             Toast.makeText(this, "Permissions Granted..", Toast.LENGTH_SHORT).show()
         } else {
-            // if the permission is not granted
-            // we are calling request permission method.
+
             requestPermission()
         }
         generatePDFBtn.setOnClickListener {
 
             generatePDF()
-
         }
-
     }
     override fun onDestroy() {
         super.onDestroy()
@@ -92,26 +92,21 @@ class PDFActivity : AppCompatActivity() {
         canvas.drawText("Harbour master report.", 396F, 560F, title)
         // PDF file we will be finishing our page.
         pdfPictureDocument.finishPage(myPage)
-        val resolver = contentResolver
-        /* val contentValues = ContentValues().apply {
-             put(MediaStore.MediaColumns.DISPLAY_NAME, "GFG.pdf")
-             put(MediaStore.MediaColumns.MIME_TYPE, "application/pdf")
-             put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
-         }
-         val uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
- */
+
         // PDF file and its path.
-        val file: File = File(getExternalFilesDir(null), "GFG.pdf")
+        val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val fileName = "HarbourMasterReport.pdf"
+        val file = File(downloadsDir, fileName)
         try {
+            val fos = FileOutputStream(file)
+            pdfPictureDocument.writeTo(fos)
+            pdfPictureDocument.close()
 
-            pdfPictureDocument.writeTo(FileOutputStream(file))
+            Log.e("Success","PDF generation success")
 
-
-            if (!isActivityDestroyed) {
-                Toast.makeText(applicationContext, "PDF file generated..", Toast.LENGTH_SHORT).show()
-            }        } catch (e: Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(applicationContext, "Fail to generate PDF file: ${e.message}", Toast.LENGTH_SHORT).show()
+            Log.e("Failed", "PDF generation fail: ${e.message}")
         }
 
         pdfPictureDocument.close()
@@ -120,12 +115,12 @@ class PDFActivity : AppCompatActivity() {
 
         var writeStoragePermission = ContextCompat.checkSelfPermission(
             applicationContext,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            WRITE_EXTERNAL_STORAGE
         )
 
         var readStoragePermission = ContextCompat.checkSelfPermission(
             applicationContext,
-            Manifest.permission.READ_EXTERNAL_STORAGE
+            READ_EXTERNAL_STORAGE
         )
 
         return writeStoragePermission == PackageManager.PERMISSION_GRANTED
@@ -135,8 +130,8 @@ class PDFActivity : AppCompatActivity() {
         ActivityCompat.requestPermissions(
             this,
             arrayOf(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                READ_EXTERNAL_STORAGE,
+                WRITE_EXTERNAL_STORAGE
             ), PERMISSION_CODE
         )
     }

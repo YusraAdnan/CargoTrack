@@ -18,6 +18,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.CargoTrack"
+        android:preserveLegacyExternalStorage="true"
         tools:targetApi="31">
         <activity
             android:name="com.CargoTrack.cargotrack.SettingsActivity"
@@ -33,7 +34,7 @@
             android:exported="false"
             android:parentActivityName="com.CargoTrack.cargotrack.SelectionActivity"/>
         <activity
-            android:name="com.CargoTrack.cargotrack.MainActivity"
+            android:name="com.CargoTrack.cargotrack.SelectionActivity"
             android:exported="true"
             android:parentActivityName="com.CargoTrack.cargotrack.SignUpActivity">
             <intent-filter>
@@ -43,11 +44,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.CargoTrack.cargotrack.SignUpActivity"
+            android:name="com.CargoTrack.cargotrack.MainActivity"
             android:exported="false"
             android:parentActivityName="com.CargoTrack.cargotrack.SelectionActivity"/>
         <activity
-            android:name="com.CargoTrack.cargotrack.SelectionActivity"
+            android:name="com.CargoTrack.cargotrack.SignUpActivity"
             android:exported="false"
             android:parentActivityName="com.CargoTrack.cargotrack.ScannerActivity">
 
