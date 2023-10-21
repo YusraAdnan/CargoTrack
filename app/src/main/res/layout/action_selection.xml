@@ -8,16 +8,6 @@
     android:gravity="center"
     android:background="@drawable/opscocean">
 
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="CARGO TRACK"-->
-<!--        android:textSize="20sp"-->
-<!--        android:textStyle="bold"-->
-<!--        android:textColor="@color/white"-->
-<!--        />-->
-
-
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

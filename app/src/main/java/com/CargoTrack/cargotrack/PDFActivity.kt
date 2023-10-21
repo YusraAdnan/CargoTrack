@@ -26,6 +26,8 @@ class PDFActivity : AppCompatActivity() {
     private var imageView: ImageView? = null
     var pageHeight = 1120
     var pageWidth = 792
+    var pictureHeight = 600
+    var pictureWidth = 600
     var bitmap :Bitmap?=null
     var scaledbmp :Bitmap?=null
     private var isActivityDestroyed = false
@@ -46,6 +48,7 @@ class PDFActivity : AppCompatActivity() {
          bitmap = BitmapFactory.decodeFile(filepath)//converts filepath back to bitmap
         imageView?.setImageBitmap(bitmap)
         retreivedText.text=receivedText
+
         bitmap?.let {
             scaledbmp = Bitmap.createScaledBitmap(it, 140, 140, false)
         }
@@ -78,27 +81,32 @@ class PDFActivity : AppCompatActivity() {
         var myPage: PdfDocument.Page = pdfPictureDocument.startPage(myPageInfo)
         var canvas: Canvas = myPage.canvas
 
-        scaledbmp?.let { canvas.drawBitmap(it, 56F, 40F, paint) }
-
+       // scaledbmp?.let { canvas.drawBitmap(it, 56F, 100F, paint) }
+        scaledbmp = bitmap?.let { Bitmap.createScaledBitmap(it, pictureWidth, pictureHeight, false) }
+        scaledbmp?.let {canvas.drawBitmap(it, 56F, 220F, paint)}
         // our text which we will be adding in our PDF file.
         title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL))
-        title.textSize = 15F
-        title.setColor(ContextCompat.getColor(this, R.color.purple_200))
-
+        title.textSize = 30F
+        title.setColor(ContextCompat.getColor(this, R.color.black))
+        canvas.drawText(retreivedText.text.toString(), 340F, 180F, title)
         // and then we are passing our variable of paint which is title.
-        canvas.drawText("Harbour master barcode scan report", 209F, 100F, title)
-        canvas.drawText("Cargo Track", 209F, 80F, title)
+        title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL))
+        title.textSize = 30F
+        title.setColor(ContextCompat.getColor(this, R.color.black))
+        canvas.drawText("Predicted text: ", 130F, 180F, title)
+
         title.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL))
-        title.setColor(ContextCompat.getColor(this, R.color.purple_200))
-        title.textSize = 15F
+        title.setColor(ContextCompat.getColor(this, R.color.black))
+        title.textSize = 40F
         title.textAlign = Paint.Align.CENTER
-        canvas.drawText("Harbour master report.", 396F, 560F, title)
+        canvas.drawText("Harbour master barcode scan report", 300F, 110F, title)
         // PDF file we will be finishing our page.
         pdfPictureDocument.finishPage(myPage)
 
         // PDF file and its path.
         val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        val fileName = "HarbourMasterReport.pdf"
+        val timestamp  = System.currentTimeMillis()
+        val fileName = "HarbourMasterReport_$timestamp.pdf"
         val file = File(downloadsDir, fileName)
         try {
             val fos = FileOutputStream(file)
@@ -106,7 +114,7 @@ class PDFActivity : AppCompatActivity() {
             pdfPictureDocument.close()
 
             Log.e("Success","PDF generation success")
-
+            Toast.makeText(this, "PDF Generated..", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Failed", "PDF generation fail: ${e.message}")
