@@ -14,6 +14,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -62,6 +63,7 @@ class ScannerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scanner)
         btnTakePhoto = findViewById(R.id.btnTakePhoto)
+        btnTakePhoto.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_camera_alt_24,0,0,0)
         imageview = findViewById(R.id.imageview)
         viewFinder = findViewById(R.id.viewFinder)
         convertToPdf = findViewById(R.id.BtnCnvertPdf)
@@ -119,6 +121,7 @@ class ScannerActivity : AppCompatActivity() {
                }
 
         Log.e("Enter Message", "Entered the sendImage function")
+        Toast.makeText(this, "Generating barcode..", Toast.LENGTH_SHORT).show()
         val apiService = ApiClient.buildService()
         requestBody?.let {
             apiService.SendImage(it)
@@ -130,6 +133,7 @@ class ScannerActivity : AppCompatActivity() {
                         textView.text = text
                         Log.e("SuccessSending", "returned text: $text")
 
+                        convertToPdf.visibility = View.VISIBLE
 
                     }, { error: Throwable ->
                         Log.e("SendingImageError", "Error sending image: ${error.message}")
@@ -203,10 +207,8 @@ class ScannerActivity : AppCompatActivity() {
                     {
                         sendImage(imageFile)
                     }
-
-                    val msg = "Photo Saved"
                     Toast.makeText(this@ScannerActivity,
-                        "$msg $savedUri",
+                        "Photo saved in gallery",
                         Toast.LENGTH_SHORT).show()
                     val contentValues = ContentValues().apply {
                         put(MediaStore.Images.Media.DISPLAY_NAME, photoFile.name)
@@ -217,7 +219,6 @@ class ScannerActivity : AppCompatActivity() {
 
                     contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
                 }
-
                 override fun onError(exception: ImageCaptureException) {
                     Log.e(Constants.TAG,
                         "onError: ${exception.message}", exception)

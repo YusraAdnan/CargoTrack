@@ -3,6 +3,7 @@ package com.CargoTrack.cargotrack
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.graphics.pdf.PdfDocument
@@ -24,15 +25,16 @@ import java.io.FileOutputStream
 
 class PDFActivity : AppCompatActivity() {
     private var imageView: ImageView? = null
+    private var isActivityDestroyed = false
+    lateinit var generatePDFBtn: Button
+    lateinit var SendEmailButton: Button
+    lateinit var retreivedText : TextView
     var pageHeight = 1120
     var pageWidth = 792
     var pictureHeight = 600
     var pictureWidth = 600
     var bitmap :Bitmap?=null
     var scaledbmp :Bitmap?=null
-    private var isActivityDestroyed = false
-    lateinit var generatePDFBtn: Button
-    lateinit var retreivedText : TextView
     var PERMISSION_CODE = 101
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +50,11 @@ class PDFActivity : AppCompatActivity() {
          bitmap = BitmapFactory.decodeFile(filepath)//converts filepath back to bitmap
         imageView?.setImageBitmap(bitmap)
         retreivedText.text=receivedText
+        SendEmailButton = findViewById(R.id.EmailButton)
+        SendEmailButton.setOnClickListener {
+            val intent = Intent(this, EmailActivity::class.java)
+            startActivity(intent)
+        }
 
         bitmap?.let {
             scaledbmp = Bitmap.createScaledBitmap(it, 140, 140, false)
@@ -93,13 +100,13 @@ class PDFActivity : AppCompatActivity() {
         title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL))
         title.textSize = 30F
         title.setColor(ContextCompat.getColor(this, R.color.black))
-        canvas.drawText("Predicted text: ", 130F, 180F, title)
+        canvas.drawText("Predicted barcode: ", 130F, 180F, title)
 
         title.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL))
         title.setColor(ContextCompat.getColor(this, R.color.black))
         title.textSize = 40F
         title.textAlign = Paint.Align.CENTER
-        canvas.drawText("Harbour master barcode scan report", 300F, 110F, title)
+        canvas.drawText("Harbour master barcode scan report", 340F, 110F, title)
         // PDF file we will be finishing our page.
         pdfPictureDocument.finishPage(myPage)
 
