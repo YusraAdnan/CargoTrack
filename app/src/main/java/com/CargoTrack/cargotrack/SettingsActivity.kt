@@ -31,7 +31,8 @@ class SettingsActivity : AppCompatActivity(),
 
     /*_______Code attribution_______
    * The following youtube link was referred to, to program the settings
-   * youtube link: https://www.youtube.com/watch?v=AHsggyb0vGw */
+   * youtube link: https://www.youtube.com/watch?v=AHsggyb0vGw
+   * chatGpt was also used to help troubleshoot: https://chat.openai.com/ */
     class SettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)

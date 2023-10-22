@@ -144,7 +144,8 @@ class ScannerActivity : AppCompatActivity() {
     }
     /*____________Code attribution_____________
   *The following youtube tutorial was used to help program the camera capturing functionality:
-  * youtube video link: https://www.youtube.com/watch?v=HjXJh_vHXFs */
+  * youtube video link: https://www.youtube.com/watch?v=HjXJh_vHXFs
+  * chatGpt was also used to help troubleshoot: https://chat.openai.com/ */
     private fun getOutputDirectory(): File{
         val mediaDir = externalMediaDirs.firstOrNull()?.let { mFile ->
             File(mFile, resources.getString(R.string.app_name)).apply{
@@ -156,7 +157,8 @@ class ScannerActivity : AppCompatActivity() {
     }
     /*_________code attribution____________
      *the following link was used to derive the bitmapToFileFunction
-     *Website link: https://stackoverflow.com/questions/39630324/how-to-convert-a-bitmap-into-a-file-android*/
+     *Website link: https://stackoverflow.com/questions/39630324/how-to-convert-a-bitmap-into-a-file-android
+     * chatGpt was also used to help troubleshoot: https://chat.openai.com/ */
     fun bitmapToFile(context: Context, bitmap: Bitmap, fileName: String): File? {  // converts the captured bitmap into file in order to send to the API
         val imagesDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES) //specifies where the file is stored in the subdirectory of app
         val imageFile = File(imagesDir, fileName)

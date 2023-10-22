@@ -34,7 +34,8 @@ class EmailActivity : AppCompatActivity() {
 
     /*____________Code attribution_____________
     *The following website was used to help program the email sending and pdf attatchment:
-    * Website link: https://www.tutorialspoint.com/how-to-send-an-email-with-a-file-attachment-in-android-using-kotlin */
+    * Website link: https://www.tutorialspoint.com/how-to-send-an-email-with-a-file-attachment-in-android-using-kotlin
+    * chatGpt was also used to help troubleshoot: https://chat.openai.com/ */
 
         etEmail = findViewById(R.id.etTo)
         etSubject = findViewById(R.id.etSubject)
