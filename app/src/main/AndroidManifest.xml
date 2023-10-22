@@ -37,7 +37,7 @@
             android:exported="false"
             android:parentActivityName="com.CargoTrack.cargotrack.SelectionActivity" />
         <activity
-            android:name="com.CargoTrack.cargotrack.SelectionActivity"
+            android:name="com.CargoTrack.cargotrack.MainActivity"
             android:exported="true"
             android:parentActivityName="com.CargoTrack.cargotrack.SignUpActivity">
             <intent-filter>
@@ -47,7 +47,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.CargoTrack.cargotrack.MainActivity"
+            android:name="com.CargoTrack.cargotrack.SelectionActivity"
             android:exported="false"
             android:parentActivityName="com.CargoTrack.cargotrack.SelectionActivity" />
         <activity

@@ -29,6 +29,9 @@ class SettingsActivity : AppCompatActivity(),
             .registerOnSharedPreferenceChangeListener(this)
     }
 
+    /*_______Code attribution_______
+   * The following youtube link was referred to, to program the settings
+   * youtube link: https://www.youtube.com/watch?v=AHsggyb0vGw */
     class SettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)

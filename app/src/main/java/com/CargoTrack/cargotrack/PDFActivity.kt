@@ -11,11 +11,10 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -76,6 +75,9 @@ class PDFActivity : AppCompatActivity() {
         super.onDestroy()
         isActivityDestroyed = true
     }
+    /*_______Code attribution_______
+    * The following website link was referred to, to program the pdf document
+    * website link: https://www.geeksforgeeks.org/generate-pdf-file-in-android-using-kotlin/ */
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     fun generatePDF(){
         var pdfPictureDocument: PdfDocument = PdfDocument()
@@ -88,7 +90,6 @@ class PDFActivity : AppCompatActivity() {
         var myPage: PdfDocument.Page = pdfPictureDocument.startPage(myPageInfo)
         var canvas: Canvas = myPage.canvas
 
-       // scaledbmp?.let { canvas.drawBitmap(it, 56F, 100F, paint) }
         scaledbmp = bitmap?.let { Bitmap.createScaledBitmap(it, pictureWidth, pictureHeight, false) }
         scaledbmp?.let {canvas.drawBitmap(it, 56F, 220F, paint)}
         // our text which we will be adding in our PDF file.
@@ -100,14 +101,15 @@ class PDFActivity : AppCompatActivity() {
         title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL))
         title.textSize = 30F
         title.setColor(ContextCompat.getColor(this, R.color.black))
-        canvas.drawText("Predicted barcode: ", 130F, 180F, title)
+        canvas.drawText("Barcode: ", 130F, 180F, title)
 
         title.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL))
         title.setColor(ContextCompat.getColor(this, R.color.black))
         title.textSize = 40F
         title.textAlign = Paint.Align.CENTER
         canvas.drawText("Harbour master barcode scan report", 340F, 110F, title)
-        // PDF file we will be finishing our page.
+
+        // PDF file we will be finishing the page.
         pdfPictureDocument.finishPage(myPage)
 
         // PDF file and its path.
@@ -121,13 +123,31 @@ class PDFActivity : AppCompatActivity() {
             pdfPictureDocument.close()
 
             Log.e("Success","PDF generation success")
-            Toast.makeText(this, "PDF Generated..", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "PDF Generating...", Toast.LENGTH_LONG).show()
+            DownloadDialog()
+            Toast.makeText(this, "Download succeeded ${file.path}", Toast.LENGTH_LONG).show()
+
+
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("Failed", "PDF generation fail: ${e.message}")
         }
 
         pdfPictureDocument.close()
+    }
+    private fun DownloadDialog() {
+
+        val addDialog = AlertDialog.Builder(this)
+        addDialog.setMessage("PDF is downloaded in the devices Download folder")
+        addDialog.setPositiveButton(android.R.string.ok) { dialog, which ->
+            Toast.makeText(
+                applicationContext,
+                android.R.string.ok, Toast.LENGTH_SHORT
+            ).show()
+            dialog.dismiss()
+        }
+        addDialog.create()
+        addDialog.show()
     }
     fun checkPermissions(): Boolean {
 

@@ -14,6 +14,7 @@ import com.cargotrack.cargotrack.databinding.ActivityMainBinding
 class SelectionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var takePicture: Button
+    private lateinit var sharePdf: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +22,11 @@ class SelectionActivity : AppCompatActivity() {
         setContentView(R.layout.action_selection)
 
         takePicture = findViewById(R.id.takeAPhoto)
+        sharePdf = findViewById(R.id.sharePdf)
+        sharePdf.setOnClickListener {
+            val intent = Intent(this, EmailActivity::class.java)
+            startActivity(intent)
+        }
         takePicture.setOnClickListener {
             val  intent = Intent(this, ScannerActivity::class.java)
             startActivity(intent)
