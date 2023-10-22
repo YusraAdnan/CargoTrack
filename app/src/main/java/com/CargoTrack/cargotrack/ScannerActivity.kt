@@ -35,7 +35,6 @@ import com.CargoTrack.cargotrack.Client.ApiClient
 import com.CargoTrack.cargotrack.Model.ApiResponse
 import com.CargoTrack.cargotrack.Model.ImageRequest
 import com.cargotrack.cargotrack.R
-import com.cargotrack.cargotrack.databinding.ActivityMainBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -96,21 +95,17 @@ class ScannerActivity : AppCompatActivity() {
             )//getting file path of taken picture from ImageCapture sending it to PDFActivity
             startActivity(intent)
         }
-       // val imageFileName = "horizontaldummypic"
-       // val resourceId = resources.getIdentifier(imageFileName, "drawable", packageName)
-        /*if (resourceId != 0) {
-            BitmapPictureSend = BitmapFactory.decodeResource(resources, resourceId)
-            imageview.setImageBitmap(BitmapPictureSend)
-        }*/
+
     }
-    fun sendImage(file: File) {
+    fun sendImage(file: File) {    //sends the captured image to the API and returns the text
 
         val imageFile = bitmap?.let {
             bitmapToFile(applicationContext, it,"sentfile" )
         }
-           val requestBody =
+        //adds the bitmap picture to the request body for the multi-part body
+        val requestBody =
                imageFile?.let { RequestBody.create("image/*".toMediaTypeOrNull(), it) }?.let {
-                   MultipartBody.Builder()
+                   MultipartBody.Builder()        //multipart helps send files to API efficiently
                        .setType(MultipartBody.FORM)
                        .addFormDataPart(
                            "sentfile",
@@ -121,7 +116,7 @@ class ScannerActivity : AppCompatActivity() {
                }
 
         Log.e("Enter Message", "Entered the sendImage function")
-        Toast.makeText(this, "Generating barcode..", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Generating barcode..", Toast.LENGTH_LONG).show()
         val apiService = ApiClient.buildService()
         requestBody?.let {
             apiService.SendImage(it)
@@ -147,7 +142,9 @@ class ScannerActivity : AppCompatActivity() {
         }
 
     }
-
+    /*____________Code attribution_____________
+  *The following youtube tutorial was used to help program the camera capturing functionality:
+  * youtube video link: https://www.youtube.com/watch?v=HjXJh_vHXFs */
     private fun getOutputDirectory(): File{
         val mediaDir = externalMediaDirs.firstOrNull()?.let { mFile ->
             File(mFile, resources.getString(R.string.app_name)).apply{
@@ -157,16 +154,19 @@ class ScannerActivity : AppCompatActivity() {
         return if (mediaDir != null && mediaDir.exists())
             mediaDir else filesDir
     }
-    fun bitmapToFile(context: Context, bitmap: Bitmap, fileName: String): File? {
-        val imagesDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+    /*_________code attribution____________
+     *the following link was used to derive the bitmapToFileFunction
+     *Website link: https://stackoverflow.com/questions/39630324/how-to-convert-a-bitmap-into-a-file-android*/
+    fun bitmapToFile(context: Context, bitmap: Bitmap, fileName: String): File? {  // converts the captured bitmap into file in order to send to the API
+        val imagesDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES) //specifies where the file is stored in the subdirectory of app
         val imageFile = File(imagesDir, fileName)
 
         try {
-            val outputStream: OutputStream = FileOutputStream(imageFile)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            val outputStream: OutputStream = FileOutputStream(imageFile) //allows writing to the file
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream) //writes bitmap to output stream
             outputStream.flush()
             outputStream.close()
-            return imageFile
+            return imageFile //returns image file
         } catch (e: IOException) {
             e.printStackTrace()
         }
@@ -196,12 +196,13 @@ class ScannerActivity : AppCompatActivity() {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     //saves captured picture in the file directory
                     savedUri = Uri.fromFile(photoFile)
-                    filepath = photoFile.absolutePath// this is used to send the file path to the next activity as the bitmap cannot be sent through intent
+                    filepath = photoFile.absolutePath //sends the file path to the next activity as the bitmap cannot be sent through intent
 
                    val capturedBitmap = BitmapFactory.decodeFile(photoFile.absolutePath) //decodes image file specified by photofile and converts to bitmap
-                   imageview.setImageBitmap(bitmap) //uncomment when not using dummy data
+                    imageview.setImageBitmap(bitmap)
                     bitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
-                    imageview.setImageBitmap(bitmap) //uncomment when not using dummy data
+                    imageview.setImageBitmap(bitmap)
+                    //calls the function converting bitmap to file and gives the actual captured bitmap photo
                     val imageFile = bitmapToFile(applicationContext, capturedBitmap,fileName.toString() )
                     if(imageFile != null)
                     {
@@ -209,7 +210,7 @@ class ScannerActivity : AppCompatActivity() {
                     }
                     Toast.makeText(this@ScannerActivity,
                         "Photo saved in gallery",
-                        Toast.LENGTH_SHORT).show()
+                        Toast.LENGTH_LONG).show()
                     val contentValues = ContentValues().apply {
                         put(MediaStore.Images.Media.DISPLAY_NAME, photoFile.name)
                         put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
@@ -257,7 +258,7 @@ class ScannerActivity : AppCompatActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
-    override fun onRequestPermissionsResult( //when user responds to permissions
+    override fun onRequestPermissionsResult(          //when user responds to permissions
         requestCode: Int,
         permissions: Array<String>,
         grantResults: IntArray) {
@@ -295,4 +296,5 @@ class ScannerActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+    //______________end__________________
 }
