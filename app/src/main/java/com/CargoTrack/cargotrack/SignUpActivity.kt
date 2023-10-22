@@ -56,7 +56,7 @@ class SignUpActivity : AppCompatActivity() {
         //val email = etEmail.text.toString()
         //val fullname = etFullName.text.toString()
         val username = etEmail.text.toString().trim()
-        val password = etPassword.text.toString()
+        val password = etPassword.text.toString().trim()
         val confirmPassword = etConfirmPassword.text.toString()
 
         //error handling if any of the edit texts are blank/null

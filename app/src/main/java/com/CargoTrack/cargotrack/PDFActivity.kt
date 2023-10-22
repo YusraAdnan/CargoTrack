@@ -140,10 +140,6 @@ class PDFActivity : AppCompatActivity() {
         val addDialog = AlertDialog.Builder(this)
         addDialog.setMessage("PDF is downloaded in the devices Download folder")
         addDialog.setPositiveButton(android.R.string.ok) { dialog, which ->
-            Toast.makeText(
-                applicationContext,
-                android.R.string.ok, Toast.LENGTH_SHORT
-            ).show()
             dialog.dismiss()
         }
         addDialog.create()

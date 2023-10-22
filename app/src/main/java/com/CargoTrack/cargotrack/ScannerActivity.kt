@@ -211,6 +211,7 @@ class ScannerActivity : AppCompatActivity() {
                     Toast.makeText(this@ScannerActivity,
                         "Photo saved in gallery",
                         Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@ScannerActivity, "Generating barcode..", Toast.LENGTH_LONG).show()
                     val contentValues = ContentValues().apply {
                         put(MediaStore.Images.Media.DISPLAY_NAME, photoFile.name)
                         put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")

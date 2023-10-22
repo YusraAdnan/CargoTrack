@@ -49,8 +49,8 @@ class MainActivity : AppCompatActivity() {
         }
 }
     private fun login() {
-        val email = etEmail.text.toString()
-        val pass = etPassword.text.toString()
+        val email = etEmail.text.toString().trim()
+        val pass = etPassword.text.toString().trim()
         // calling signInWithEmailAndPassword(email, pass) function using Firebase auth object On successful response Display a Toast
         firebase.signInWithEmailAndPassword(email, pass).addOnCompleteListener(this) {
             if (it.isSuccessful) {
