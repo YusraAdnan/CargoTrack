@@ -41,6 +41,7 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import org.w3c.dom.Text
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -58,16 +59,17 @@ class ScannerActivity : AppCompatActivity() {
     var filepath: String? = null
     private lateinit var textView: TextView
     var savedUri: Uri? = null
+    var text: String? =null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scanner)
         btnTakePhoto = findViewById(R.id.btnTakePhoto)
         btnTakePhoto.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_camera_alt_24,0,0,0)
-        imageview = findViewById(R.id.imageview)
         viewFinder = findViewById(R.id.viewFinder)
-        convertToPdf = findViewById(R.id.BtnCnvertPdf)
-        textView = findViewById(R.id.textViewExtractText)
 
+
+        val intent2 = Intent(this, CameraActivity::class.java)
         outputDirectory =
             getOutputDirectory() //gets file directory where all captred photos are stored
         if (allPermissionGranted()) {
@@ -80,21 +82,9 @@ class ScannerActivity : AppCompatActivity() {
         }
         btnTakePhoto.setOnClickListener {
             takePhoto()
-        }
-        val intent = Intent(this, PDFActivity::class.java)
 
-        convertToPdf.setOnClickListener {
-
-            intent.putExtra(
-                "FilePath",
-                filepath
-            )
-            intent.putExtra(
-                "ExtractedText",
-                textView.text.toString()
-            )//getting file path of taken picture from ImageCapture sending it to PDFActivity
-            startActivity(intent)
         }
+
 
     }
     fun sendImage(file: File) {    //sends the captured image to the API and returns the text
@@ -124,11 +114,13 @@ class ScannerActivity : AppCompatActivity() {
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                     { response: ApiResponse ->
-                        val text = response.text
-                        textView.text = text
+                        text = response.text
+                       // textView.text = text
                         Log.e("SuccessSending", "returned text: $text")
-
-                        convertToPdf.visibility = View.VISIBLE
+                        val intent = Intent(this, CameraActivity::class.java)
+                        intent.putExtra("CapturedImagePath", file.absolutePath)
+                        intent.putExtra("ExtractedText", text)
+                        startActivity(intent)
 
                     }, { error: Throwable ->
                         Log.e("SendingImageError", "Error sending image: ${error.message}")
@@ -201,19 +193,21 @@ class ScannerActivity : AppCompatActivity() {
                     filepath = photoFile.absolutePath //sends the file path to the next activity as the bitmap cannot be sent through intent
 
                    val capturedBitmap = BitmapFactory.decodeFile(photoFile.absolutePath) //decodes image file specified by photofile and converts to bitmap
-                    imageview.setImageBitmap(bitmap)
+                    //imageview.setImageBitmap(bitmap)
                     bitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
-                    imageview.setImageBitmap(bitmap)
+                   // imageview.setImageBitmap(bitmap)
                     //calls the function converting bitmap to file and gives the actual captured bitmap photo
                     val imageFile = bitmapToFile(applicationContext, capturedBitmap,fileName.toString() )
                     if(imageFile != null)
                     {
                         sendImage(imageFile)
                     }
+
                     Toast.makeText(this@ScannerActivity,
                         "Photo saved in gallery",
-                        Toast.LENGTH_LONG).show()
-                    Toast.makeText(this@ScannerActivity, "Generating barcode..", Toast.LENGTH_LONG).show()
+                        Toast.LENGTH_SHORT).show()
+
+                   // Toast.makeText(this@ScannerActivity, "Generating barcode..", Toast.LENGTH_LONG).show()
                     val contentValues = ContentValues().apply {
                         put(MediaStore.Images.Media.DISPLAY_NAME, photoFile.name)
                         put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
