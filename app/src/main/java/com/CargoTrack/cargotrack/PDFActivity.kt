@@ -19,13 +19,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.cargotrack.cargotrack.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.File
 import java.io.FileOutputStream
 
 class PDFActivity : AppCompatActivity() {
     private var imageView: ImageView? = null
     private var isActivityDestroyed = false
-    lateinit var generatePDFBtn: Button
+    lateinit var generatePDFBtn: FloatingActionButton
     lateinit var SendEmailButton: Button
     lateinit var retreivedText : TextView
     var pageHeight = 1120

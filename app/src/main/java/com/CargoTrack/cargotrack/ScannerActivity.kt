@@ -35,6 +35,7 @@ import com.CargoTrack.cargotrack.Client.ApiClient
 import com.CargoTrack.cargotrack.Model.ApiResponse
 import com.CargoTrack.cargotrack.Model.ImageRequest
 import com.cargotrack.cargotrack.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -50,14 +51,12 @@ class ScannerActivity : AppCompatActivity() {
 
     private var imageCapture: ImageCapture? = null
     private lateinit var outputDirectory: File
-    private lateinit var btnTakePhoto: Button
+    private lateinit var btnTakePhoto: FloatingActionButton
     private lateinit var imageview: ImageView
     private lateinit var viewFinder: PreviewView
-    private lateinit var convertToPdf: Button
     private var compositeDisposable = CompositeDisposable()
     private var bitmap: Bitmap? = null
     var filepath: String? = null
-    private lateinit var textView: TextView
     var savedUri: Uri? = null
     var text: String? =null
 
@@ -65,7 +64,7 @@ class ScannerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scanner)
         btnTakePhoto = findViewById(R.id.btnTakePhoto)
-        btnTakePhoto.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_camera_alt_24,0,0,0)
+
         viewFinder = findViewById(R.id.viewFinder)
 
 
@@ -82,10 +81,7 @@ class ScannerActivity : AppCompatActivity() {
         }
         btnTakePhoto.setOnClickListener {
             takePhoto()
-
         }
-
-
     }
     fun sendImage(file: File) {    //sends the captured image to the API and returns the text
 
@@ -106,6 +102,7 @@ class ScannerActivity : AppCompatActivity() {
                }
 
         Log.e("Enter Message", "Entered the sendImage function")
+        Toast.makeText(this@ScannerActivity, "Photo saved in gallery", Toast.LENGTH_SHORT).show()
         Toast.makeText(this, "Generating barcode..", Toast.LENGTH_LONG).show()
         val apiService = ApiClient.buildService()
         requestBody?.let {
@@ -164,7 +161,6 @@ class ScannerActivity : AppCompatActivity() {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-
         return null
     }
     private fun takePhoto(){
@@ -203,9 +199,7 @@ class ScannerActivity : AppCompatActivity() {
                         sendImage(imageFile)
                     }
 
-                    Toast.makeText(this@ScannerActivity,
-                        "Photo saved in gallery",
-                        Toast.LENGTH_SHORT).show()
+
 
                    // Toast.makeText(this@ScannerActivity, "Generating barcode..", Toast.LENGTH_LONG).show()
                     val contentValues = ContentValues().apply {

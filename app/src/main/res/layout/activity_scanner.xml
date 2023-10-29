@@ -18,34 +18,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.315" />
 
-
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnTakePhoto"
-        android:layout_width="58dp"
-        android:layout_height="48dp"
+        android:layout_width="63dp"
+        android:layout_height="55dp"
         android:layout_marginEnd="176dp"
         android:layout_marginBottom="64dp"
         android:backgroundTint="@color/darkBlue"
-
-        android:drawableLeft="@drawable/baseline_camera_alt_24"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/BtnCnvertPdf"
-        android:layout_width="60dp"
-        android:layout_height="41dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/darkBlue"
-        android:drawableLeft="@drawable/baseline_picture_as_pdf_24"
-        android:visibility="invisible"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/baseline_camera_alt_24"
+        app:tint="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
