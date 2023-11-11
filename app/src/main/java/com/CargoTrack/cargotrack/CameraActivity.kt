@@ -1,21 +1,21 @@
 package com.CargoTrack.cargotrack
 
-
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
-import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.graphics.pdf.PdfDocument
 import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
-import android.view.LayoutInflater
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.cargotrack.cargotrack.R
@@ -23,38 +23,55 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.File
 import java.io.FileOutputStream
 
-class PDFActivity : AppCompatActivity() {
+class CameraActivity : AppCompatActivity() {
+
+    var bitmap : Bitmap?=null
     private var imageView: ImageView? = null
-    private var isActivityDestroyed = false
-    lateinit var generatePDFBtn: FloatingActionButton
-    lateinit var SendEmailButton: Button
     lateinit var retreivedText : TextView
+    private lateinit var convertToPdf: FloatingActionButton
+    private var isActivityDestroyed = false
+    lateinit var generatePDFBtn: Button
+    lateinit var SendEmailButton: Button
     var pageHeight = 1120
     var pageWidth = 792
     var pictureHeight = 600
     var pictureWidth = 600
-    var bitmap :Bitmap?=null
     var scaledbmp :Bitmap?=null
     var PERMISSION_CODE = 101
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        isActivityDestroyed = false
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pdfactivity)
-        imageView = findViewById(R.id.imageviewPDf)
+        setContentView(R.layout.activity_camera)
+        supportActionBar?.hide()
+        imageView = findViewById(R.id.imageview)
         retreivedText = findViewById(R.id.textViewExtractText)
-        val filepath = intent.getStringExtra("FilePath")
-        val receivedText = intent.getStringExtra("ExtractedText")
-       // bitmap = BitmapFactory.decodeResource(resources, R.drawable.horizontaldummypic)
-         bitmap = BitmapFactory.decodeFile(filepath)//converts filepath back to bitmap
-        imageView?.setImageBitmap(bitmap)
-        retreivedText.text=receivedText
         SendEmailButton = findViewById(R.id.EmailButton)
         SendEmailButton.setOnClickListener {
             val intent = Intent(this, EmailActivity::class.java)
             startActivity(intent)
         }
+
+        val filepath = intent.getStringExtra("CapturedImagePath")
+        val receivedText = intent.getStringExtra("ExtractedText")
+        retreivedText.text=receivedText
+
+        bitmap = BitmapFactory.decodeFile(filepath)//converts filepath back to bitmap
+        imageView?.setImageBitmap(bitmap)
+
+        val intent = Intent(this, PDFActivity::class.java)
+
+       /* convertToPdf.setOnClickListener {
+
+            intent.putExtra(
+                "FilePath",
+                filepath
+            )
+            intent.putExtra(
+                "ExtractedText",
+                retreivedText.text.toString()
+            )//getting file path of taken picture from ImageCapture sending it to PDFActivity
+            startActivity(intent)
+        }*/
 
         bitmap?.let {
             scaledbmp = Bitmap.createScaledBitmap(it, 140, 140, false)
@@ -71,6 +88,7 @@ class PDFActivity : AppCompatActivity() {
 
             generatePDF()
         }
+
     }
     override fun onDestroy() {
         super.onDestroy()
@@ -150,12 +168,12 @@ class PDFActivity : AppCompatActivity() {
 
         var writeStoragePermission = ContextCompat.checkSelfPermission(
             applicationContext,
-            WRITE_EXTERNAL_STORAGE
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
 
         var readStoragePermission = ContextCompat.checkSelfPermission(
             applicationContext,
-            READ_EXTERNAL_STORAGE
+            Manifest.permission.READ_EXTERNAL_STORAGE
         )
 
         return writeStoragePermission == PackageManager.PERMISSION_GRANTED
@@ -165,8 +183,8 @@ class PDFActivity : AppCompatActivity() {
         ActivityCompat.requestPermissions(
             this,
             arrayOf(
-                READ_EXTERNAL_STORAGE,
-                WRITE_EXTERNAL_STORAGE
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
             ), PERMISSION_CODE
         )
     }
@@ -195,5 +213,4 @@ class PDFActivity : AppCompatActivity() {
             }
         }
     }
-
 }

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightBlue"
+    tools:context="com.CargoTrack.cargotrack.CameraActivity">
+
+
+    <TextView
+        android:id="@+id/Headin1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="4dp"
+        android:text="Cargo Track"
+        android:textAlignment="center"
+        android:textColor="@color/darkBlue"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/Headin2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/Headin2"
+        android:layout_width="402dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="555dp"
+        android:text="Scan Report"
+        android:textAlignment="center"
+        android:textColor="@color/darkBlue"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Headin1" /> <!-- Aligns with the start of the parent -->
+    />
+
+    <ImageView
+        android:id="@+id/imageview"
+        android:layout_width="384dp"
+        android:layout_height="364dp"
+        android:layout_marginBottom="236dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.407"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/idBtnGeneratePdf"
+        android:layout_width="190dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="180dp"
+        android:layout_marginBottom="48dp"
+        android:backgroundTint="@color/darkBlue"
+        android:drawableLeft="@drawable/baseline_file_download_24"
+        android:text="Download PDF"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/textViewExtractText"
+        android:layout_width="211dp"
+        android:layout_height="90dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="132dp"
+        android:text="null"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/labelbarcode"
+        android:layout_width="90dp"
+        android:layout_height="34dp"
+        android:layout_marginEnd="228dp"
+        android:layout_marginBottom="188dp"
+        android:text="Barcode:"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/EmailButton"
+        android:layout_width="150dp"
+        android:layout_height="69dp"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="48dp"
+        android:backgroundTint="@color/darkBlue"
+        android:padding="4dp"
+        android:text="Email PDF"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.938"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
