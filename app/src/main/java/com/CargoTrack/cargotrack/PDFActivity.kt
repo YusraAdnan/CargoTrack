@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.graphics.pdf.PdfDocument
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -22,6 +23,7 @@ import com.cargotrack.cargotrack.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.File
 import java.io.FileOutputStream
+import java.net.URI
 
 class PDFActivity : AppCompatActivity() {
     private var imageView: ImageView? = null
@@ -36,6 +38,7 @@ class PDFActivity : AppCompatActivity() {
     var bitmap :Bitmap?=null
     var scaledbmp :Bitmap?=null
     var PERMISSION_CODE = 101
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -118,6 +121,7 @@ class PDFActivity : AppCompatActivity() {
         val timestamp  = System.currentTimeMillis()
         val fileName = "HarbourMasterReport_$timestamp.pdf"
         val file = File(downloadsDir, fileName)
+        val pdfUri: Uri = Uri.fromFile(file)
         try {
             val fos = FileOutputStream(file)
             pdfPictureDocument.writeTo(fos)

@@ -1,23 +1,24 @@
 package com.CargoTrack.cargotrack
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.graphics.pdf.PdfDocument
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.cargotrack.cargotrack.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.File
@@ -47,9 +48,9 @@ class CameraActivity : AppCompatActivity() {
         retreivedText = findViewById(R.id.textViewExtractText)
         SendEmailButton = findViewById(R.id.EmailButton)
         SendEmailButton.setOnClickListener {
-            val intent = Intent(this, EmailActivity::class.java)
-            startActivity(intent)
+            sendEmail()
         }
+
 
         val filepath = intent.getStringExtra("CapturedImagePath")
         val receivedText = intent.getStringExtra("ExtractedText")
@@ -90,10 +91,12 @@ class CameraActivity : AppCompatActivity() {
         }
 
     }
+
     override fun onDestroy() {
         super.onDestroy()
         isActivityDestroyed = true
     }
+
     /*_______Code attribution_______
     * The following website link was referred to, to program the pdf document
     * website link: https://www.geeksforgeeks.org/generate-pdf-file-in-android-using-kotlin/ */
@@ -136,6 +139,8 @@ class CameraActivity : AppCompatActivity() {
         val timestamp  = System.currentTimeMillis()
         val fileName = "HarbourMasterReport_$timestamp.pdf"
         val file = File(downloadsDir, fileName)
+        uri = FileProvider.getUriForFile(this, "com.CargoTrack.cargotrack.provider", file)
+
         try {
             val fos = FileOutputStream(file)
             pdfPictureDocument.writeTo(fos)
@@ -178,6 +183,34 @@ class CameraActivity : AppCompatActivity() {
 
         return writeStoragePermission == PackageManager.PERMISSION_GRANTED
                 && readStoragePermission == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun sendEmail() {
+        try {
+
+            val emailIntent = Intent(Intent.ACTION_SEND)
+            emailIntent.type = "plain/text"
+            emailIntent.putExtra(Intent.EXTRA_STREAM, uri)
+            this.startActivity(Intent.createChooser(emailIntent, "Sending email..."))
+            Toast.makeText(this, "Email sent", Toast.LENGTH_LONG).show()
+
+        }
+        catch (t: Throwable) {
+            Toast.makeText(this, "Request failed try again: $t", Toast.LENGTH_LONG).show()
+        }
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PDF_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                uri = data.data!!
+            }
+
+        }
+    }
+    companion object {
+        private const val PDF_REQUEST_CODE = 123
+        var uri: Uri? = null// An arbitrary request code
     }
     fun requestPermission(){
         ActivityCompat.requestPermissions(
