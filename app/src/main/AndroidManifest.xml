@@ -31,10 +31,12 @@
         </provider>
         <activity
             android:name="com.CargoTrack.cargotrack.CameraActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName="com.CargoTrack.cargotrack.SelectionActivity" />
         <activity
             android:name="com.CargoTrack.cargotrack.EmailActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName="com.CargoTrack.cargotrack.SelectionActivity" />
         <activity
             android:name="com.CargoTrack.cargotrack.SettingsActivity"
             android:exported="false"
