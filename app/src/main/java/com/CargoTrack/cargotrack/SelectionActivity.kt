@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.preference.PreferenceManager
 import com.cargotrack.cargotrack.R
 import com.cargotrack.cargotrack.databinding.ActivityMainBinding
 
@@ -15,6 +13,7 @@ class SelectionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var takePicture: Button
     private lateinit var sharePdf: Button
+    private lateinit var FindForwardingAgent: Button
     private lateinit var FindDepot: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +22,8 @@ class SelectionActivity : AppCompatActivity() {
         setContentView(R.layout.action_selection)
 
         takePicture = findViewById(R.id.takeAPhoto)
-        FindDepot = findViewById(R.id.DepoButton)
+        FindForwardingAgent = findViewById(R.id.ForwardingButton)
+        FindDepot = findViewById(R.id.DepotButton)
         sharePdf = findViewById(R.id.sharePdf)
         sharePdf.setOnClickListener {
             val intent = Intent(this, EmailActivity::class.java)
@@ -33,11 +33,14 @@ class SelectionActivity : AppCompatActivity() {
             val  intent = Intent(this, ScannerActivity::class.java)
             startActivity(intent)
         }
-        FindDepot.setOnClickListener {
-            val intent = Intent(this, MapFragmentActivity::class.java)
+        FindForwardingAgent.setOnClickListener {
+            val intent = Intent(this, ForwardingAgent::class.java)
             startActivity(intent)
         }
-
+        FindDepot.setOnClickListener {
+            val intent = Intent(this, DepoActivty::class.java)
+            startActivity(intent)
+        }
         mySettings()
     }
 

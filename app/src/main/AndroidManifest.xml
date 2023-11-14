@@ -23,7 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CargoTrack"
         tools:targetApi="31">
-
+        <activity
+            android:name="com.CargoTrack.cargotrack.DepoActivty"
+            android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -83,11 +85,7 @@
             android:exported="false"
             android:parentActivityName="com.CargoTrack.cargotrack.SelectionActivity" />
         <activity
-            android:name="com.CargoTrack.cargotrack.MapFragmentActivity"
-            android:exported="false"
-            android:parentActivityName="com.CargoTrack.cargotrack.SelectionActivity" />
-        <activity
-            android:name="com.CargoTrack.cargotrack.MapsActivity"
+            android:name="com.CargoTrack.cargotrack.ForwardingAgent"
             android:exported="false"
             android:parentActivityName="com.CargoTrack.cargotrack.SelectionActivity" />
         <activity
