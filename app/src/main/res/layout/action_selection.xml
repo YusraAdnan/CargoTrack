@@ -63,13 +63,13 @@
                 app:cornerRadius="20dp" />
 
             <Button
-                android:id="@+id/selectFromGallery"
+                android:id="@+id/DepoButton"
                 android:layout_width="300dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="15dp"
                 android:backgroundTint="@color/darkBlue"
-                android:text="Select from Gallery"
+                android:text="Find Depot"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
