@@ -1,54 +1,41 @@
 package com.CargoTrack.cargotrack
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import com.CargoTrack.cargotrack.Model.Locations
 import com.cargotrack.cargotrack.R
 import com.google.android.gms.maps.*
-import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter
-import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import org.w3c.dom.Text
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
-class MapFragmentActivity : AppCompatActivity(), OnMapReadyCallback {
+class ForwardingAgent : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap:GoogleMap
     private lateinit var mapView: MapView
-    val Johannesburg = LatLng(-26.16926924102308, 28.22331865263266)
-    val Durban = LatLng(-29.736683887218078, 31.064520981645735)
-
-    private  var locationArraryList:ArrayList<LatLng>? = null
+    lateinit var database: DatabaseReference
+    val locations = Locations()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map_fragment)
 
-
         mapView = findViewById(R.id.mapView)
         mapView.onCreate(savedInstanceState)
         mapView.onResume()
-
         mapView.getMapAsync(this)
 
-
-       // val map = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-      //  map.getMapAsync(this)
-
-        locationArraryList = ArrayList()
-        locationArraryList!!.add(Johannesburg)
-        locationArraryList!!.add(Durban)
-
+        val locations = Locations()
+        val database = FirebaseDatabase.getInstance().getReference("locations")
+        database.setValue(locations)
     }
 
     @SuppressLint("SetTextI18n")
@@ -66,40 +53,43 @@ class MapFragmentActivity : AppCompatActivity(), OnMapReadyCallback {
                 "South Lake Office Park")
         val bitmap=Bitmap.createScaledBitmap(viewToBitmap(CardView)!!, CardView.width, CardView.height, false)
         val smallMarkerIcon = BitmapDescriptorFactory.fromBitmap(bitmap)
-        mMap.addMarker(MarkerOptions().position(Johannesburg))
+        mMap.addMarker(MarkerOptions().position(locations.Johannesburg))
 
-        mMap.addMarker(MarkerOptions().position(Johannesburg).icon(smallMarkerIcon))
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(Johannesburg, 18.0f))
+        mMap.addMarker(MarkerOptions().position(locations.Johannesburg).icon(smallMarkerIcon))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(locations.Johannesburg, 18.0f))
 
         CityName.text = ("Durban\n" +
-                "Musgrave \n")
+                "16 Cranbrook Park,\n" +
+                "Cranbrook Crescent\n" +
+                "La Lucia Ridge")
         val bitmap1=Bitmap.createScaledBitmap(viewToBitmap(CardView)!!, CardView.width, CardView.height, false)
         val smallMarkerIcon2 = BitmapDescriptorFactory.fromBitmap(bitmap1)
-        mMap.addMarker(MarkerOptions().position(Durban))
+        mMap.addMarker(MarkerOptions().position(locations.Durban))
 
-           mMap.addMarker(MarkerOptions().position(Durban).icon(smallMarkerIcon2))
-           mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(Durban, 18.0f))
-
-        /* mMap.addMarker(MarkerOptions().position(Johannesburg))
-         mMap.animateCamera(CameraUpdateFactory.zoomTo(18.0f))
-         mMap.moveCamera(CameraUpdateFactory.newLatLng(Johannesburg))*/
+           mMap.addMarker(MarkerOptions().position(locations.Durban).icon(smallMarkerIcon2))
+           mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(locations.Durban, 18.0f))
 
 
+        CityName.text = ("East London\n" +
+                "164 Main Road,\n" +
+                "Amalinda, East London")
+        val bitmap2=Bitmap.createScaledBitmap(viewToBitmap(CardView)!!, CardView.width, CardView.height, false)
+        val smallMarkerIcon3 = BitmapDescriptorFactory.fromBitmap(bitmap2)
+        mMap.addMarker(MarkerOptions().position(locations.EastLondon))
+        mMap.addMarker(MarkerOptions().position(locations.EastLondon).icon(smallMarkerIcon3))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(locations.EastLondon, 18.0f))
 
+        CityName.text = ("Cape Town\n" +
+                "Unit 25, Prestige Business Park\n" +
+                "Democracy Way\n" +
+                "Marconi Beam\n" +
+                "Montague Gardens, 7407")
+        val bitmap3=Bitmap.createScaledBitmap(viewToBitmap(CardView)!!, CardView.width, CardView.height, false)
+        val smallMarkerIcon4 = BitmapDescriptorFactory.fromBitmap(bitmap3)
+        mMap.addMarker(MarkerOptions().position(locations.CapeTown))
+        mMap.addMarker(MarkerOptions().position(locations.CapeTown).icon(smallMarkerIcon4))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(locations.CapeTown, 18.0f))
 
-        /*for(i in locationArraryList!!.indices)
-        {
-            mMap.addMarker(MarkerOptions().position(locationArraryList!![i])
-                .title("Johannesburg Office ")
-                .snippet("ADDRESS\n" +
-                        "South Lake Office Park\n" +
-                        "5 Estee Ackerman Street\n" +
-                        "Jet Park Ext 62\n" +
-                        "Johannesburg 1462"))
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(18.0f))
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(locationArraryList!!.get(i)))
-
-        }*/
     }
 
     private fun viewToBitmap(view:View):Bitmap?{

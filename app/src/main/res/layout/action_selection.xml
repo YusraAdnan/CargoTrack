@@ -63,7 +63,19 @@
                 app:cornerRadius="20dp" />
 
             <Button
-                android:id="@+id/DepoButton"
+                android:id="@+id/ForwardingButton"
+                android:layout_width="300dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:backgroundTint="@color/darkBlue"
+                android:text="Find Forwarding Agent"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:cornerRadius="20dp" />
+            <Button
+                android:id="@+id/DepotButton"
                 android:layout_width="300dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center_horizontal"
