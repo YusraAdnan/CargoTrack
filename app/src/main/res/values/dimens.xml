@@ -1,0 +1,4 @@
+<!-- res/values/dimens.xml -->
+<resources>
+    <dimen name="card_view_offset_y">50dp</dimen>
+</resources>

@@ -15,6 +15,7 @@ class SelectionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var takePicture: Button
     private lateinit var sharePdf: Button
+    private lateinit var FindDepot: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +23,7 @@ class SelectionActivity : AppCompatActivity() {
         setContentView(R.layout.action_selection)
 
         takePicture = findViewById(R.id.takeAPhoto)
+        FindDepot = findViewById(R.id.DepoButton)
         sharePdf = findViewById(R.id.sharePdf)
         sharePdf.setOnClickListener {
             val intent = Intent(this, EmailActivity::class.java)
@@ -29,6 +31,10 @@ class SelectionActivity : AppCompatActivity() {
         }
         takePicture.setOnClickListener {
             val  intent = Intent(this, ScannerActivity::class.java)
+            startActivity(intent)
+        }
+        FindDepot.setOnClickListener {
+            val intent = Intent(this, MapFragmentActivity::class.java)
             startActivity(intent)
         }
 
