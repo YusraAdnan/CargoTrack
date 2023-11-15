@@ -55,17 +55,11 @@
             android:name="com.CargoTrack.cargotrack.CameraActivity"
             android:exported="false" />
         <activity
-            android:name="com.CargoTrack.cargotrack.EmailActivity"
-            android:exported="false" />
-        <activity
             android:name="com.CargoTrack.cargotrack.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings"
             android:parentActivityName="com.CargoTrack.cargotrack.SelectionActivity" />
-        <activity
-            android:name="com.CargoTrack.cargotrack.PDFActivity"
-            android:exported="false"
-            android:parentActivityName="com.CargoTrack.cargotrack.SelectionActivity" />
+
         <activity
             android:name="com.CargoTrack.cargotrack.ScannerActivity"
             android:exported="false"
