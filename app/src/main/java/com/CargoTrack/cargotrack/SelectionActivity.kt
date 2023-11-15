@@ -1,11 +1,13 @@
 package com.CargoTrack.cargotrack
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.Toast
 import com.cargotrack.cargotrack.R
 import com.cargotrack.cargotrack.databinding.ActivityMainBinding
 
@@ -15,6 +17,7 @@ class SelectionActivity : AppCompatActivity() {
     private lateinit var sharePdf: Button
     private lateinit var FindForwardingAgent: Button
     private lateinit var FindDepot: Button
+    var PERMISSION_CODE = 101
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +29,7 @@ class SelectionActivity : AppCompatActivity() {
         FindDepot = findViewById(R.id.DepotButton)
         sharePdf = findViewById(R.id.sharePdf)
         sharePdf.setOnClickListener {
-            val intent = Intent(this, EmailActivity::class.java)
-            startActivity(intent)
+           sendEmail()
         }
         takePicture.setOnClickListener {
             val  intent = Intent(this, ScannerActivity::class.java)
@@ -60,5 +62,28 @@ class SelectionActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+    private fun sendEmail() {
+        try {
+
+            val emailIntent = Intent(Intent.ACTION_SEND)
+            emailIntent.type = "plain/text"
+            emailIntent.putExtra(Intent.EXTRA_STREAM, CameraActivity.uri)
+            this.startActivity(Intent.createChooser(emailIntent, "Sending email..."))
+            Toast.makeText(this, "Email sent", Toast.LENGTH_LONG).show()
+
+        }
+        catch (t: Throwable) {
+            Toast.makeText(this, "Request failed try again: $t", Toast.LENGTH_LONG).show()
+        }
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CameraActivity.PDF_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                CameraActivity.uri = data.data!!
+            }
+
+        }
     }
 }

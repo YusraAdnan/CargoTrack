@@ -59,7 +59,7 @@ class CameraActivity : AppCompatActivity() {
         bitmap = BitmapFactory.decodeFile(filepath)//converts filepath back to bitmap
         imageView?.setImageBitmap(bitmap)
 
-        val intent = Intent(this, PDFActivity::class.java)
+
 
        /* convertToPdf.setOnClickListener {
 
@@ -209,7 +209,7 @@ class CameraActivity : AppCompatActivity() {
         }
     }
     companion object {
-        private const val PDF_REQUEST_CODE = 123
+        public const val PDF_REQUEST_CODE = 123
         var uri: Uri? = null// An arbitrary request code
     }
     fun requestPermission(){
