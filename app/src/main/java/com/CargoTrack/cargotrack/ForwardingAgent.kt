@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import com.CargoTrack.cargotrack.Model.ForwardingAgentAddresses
 import com.CargoTrack.cargotrack.Model.Locations
@@ -36,6 +37,9 @@ class ForwardingAgent : AppCompatActivity(), OnMapReadyCallback {
     val specificAddress3 = AgentAddresses.EastLondonAgentAddress
     val specificAddress4 = AgentAddresses.CapeTownAgentAddress
 
+    /*Code attribution
+   * The following youtube link was referred to when adding locations to the map
+   * youtube link: https://www.youtube.com/watch?v=acUB18U-IM8 */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map_fragment)
@@ -53,26 +57,31 @@ class ForwardingAgent : AppCompatActivity(), OnMapReadyCallback {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
 
-                val location = searchView.query.toString()
-                var addressList : List<Address>? = null
+                /*Code attribution
+                * The Following Search function was programmed referring to the following website link:
+                * Weblink: https://www.geeksforgeeks.org/how-to-add-searchview-in-google-maps-in-android/ */
+
+                val location = searchView.query.toString() //location from searchView
+                var addressList : List<Address>? = null // stores all the address lists
 
                 if(location !=  null || location == "") {
 
                     val geocoder = Geocoder(this@ForwardingAgent)
                     try{
-                        addressList = geocoder.getFromLocationName(location,1)
+                        addressList = geocoder.getFromLocationName(location,1) //getting the searched location name and setting it to the list
                         if (addressList != null) {
                             if(addressList.isNotEmpty()){
 
-                                val specificAddressList =  geocoder.getFromLocationName("$specificAddress1, $specificAddress2,$specificAddress3,$specificAddress4, $location", 1)
+                                val specificAddressList =  geocoder.getFromLocationName("$specificAddress1" +
+                                        ", $specificAddress2,$specificAddress3,$specificAddress4, $location", 1) //adds the specified addresses to another list
                                 if (specificAddressList != null) {
                                     if (specificAddressList.isNotEmpty()) {
                                         val specificLatLng =
-                                            LatLng(specificAddressList[0].latitude, specificAddressList[0].longitude)
+                                            LatLng(specificAddressList[0].latitude, specificAddressList[0].longitude) //sets the long/lat of the specified address to variable
 
                                         // Add a marker for the specific address
                                         mMap.addMarker(
-                                            MarkerOptions().position(specificLatLng).title(specificAddress1)
+                                            MarkerOptions().position(specificLatLng).title(specificAddress1)//makes marker for the specified co-ordinates
                                         )
                                         mMap.addMarker(
                                             MarkerOptions().position(specificLatLng).title(specificAddress2)
@@ -89,9 +98,17 @@ class ForwardingAgent : AppCompatActivity(), OnMapReadyCallback {
                                             CameraUpdateFactory.newLatLngZoom(specificLatLng, 15f)
                                         )
                                     }
+
+                                    else{
+                                        Toast.makeText(this@ForwardingAgent, "Address Specific address not found ", Toast.LENGTH_SHORT).show()
+                                    }
                                 }
-                                    geocoder.getFromLocationName("$specificAddress1,$specificAddress2,$specificAddress3,$specificAddress4, $location", 1)
+
+                            }else{
+                                Toast.makeText(this@ForwardingAgent, "Location not found for $location", Toast.LENGTH_SHORT).show()
                             }
+                            geocoder.getFromLocationName("$specificAddress1," +
+                                    "$specificAddress2,$specificAddress3,$specificAddress4, $location", 1)
 
                         }
                     }catch (e: IOException){
@@ -100,10 +117,7 @@ class ForwardingAgent : AppCompatActivity(), OnMapReadyCallback {
                     val address: Address = addressList?.get(0)!!
                     val latLng = LatLng(address.latitude, address.longitude)
 
-                    // on below line we are adding marker to that position.
                     mMap.addMarker(MarkerOptions().position(latLng).title(location))
-
-                    // below line is to animate camera to that position.
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f))
                 }
                 return false
