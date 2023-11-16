@@ -62,8 +62,8 @@ class DepoActivty : AppCompatActivity(), OnMapReadyCallback {
         database2.child("Addresses").child("AddressForwardingAgent").setValue(AgentAddresses)
 
         /*Code attribution
-                      * The Following Search function was programmed referring to the following website link:
-                      * Weblink: https://www.geeksforgeeks.org/how-to-add-searchview-in-google-maps-in-android/ */
+          * The Following Search function was programmed referring to the following website link:
+          * Weblink: https://www.geeksforgeeks.org/how-to-add-searchview-in-google-maps-in-android/ */
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
 
@@ -71,6 +71,8 @@ class DepoActivty : AppCompatActivity(), OnMapReadyCallback {
                 var addressList : List<Address>? = null
 
                 if(location !=  null || location == "") {
+                    /*The following link was used to code the specific area search view:
+                        * website link: https://www.geeksforgeeks.org/how-to-add-searchview-in-google-maps-in-android/ */
 
                     val geocoder = Geocoder(this@DepoActivty)
                     try{
@@ -78,11 +80,15 @@ class DepoActivty : AppCompatActivity(), OnMapReadyCallback {
                         if (addressList != null) {
                             if(addressList.isNotEmpty()){
 
-                                val specificAddressList =  geocoder.getFromLocationName("$specificAddress1, $specificAddress2,$specificAddress3,$specificAddress4,$specificAddress5, $location", 1)
-                                if (specificAddressList != null) {
-                                    if (specificAddressList.isNotEmpty()) {
+                                /*The following link was used to code the specific area search view:
+                               * website link: https://www.tabnine.com/code/java/methods/android.location.Geocoder/getFromLocationName
+                               * website link: http://www.java2s.com/example/java-api/android/location/geocoder/getfromlocationname-6-0.html */
+
+                                val ActualAddressList =  geocoder.getFromLocationName("$specificAddress1, $specificAddress2,$specificAddress3,$specificAddress4,$specificAddress5, $location", 1)
+                                if (ActualAddressList != null) {
+                                    if (ActualAddressList.isNotEmpty()) {
                                         val specificLatLng =
-                                            LatLng(specificAddressList[0].latitude, specificAddressList[0].longitude)
+                                            LatLng(ActualAddressList[0].latitude, ActualAddressList[0].longitude)
 
                                         // Add a marker for the specific address
                                         mMap.addMarker(
