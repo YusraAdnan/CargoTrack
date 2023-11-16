@@ -65,6 +65,8 @@ class ForwardingAgent : AppCompatActivity(), OnMapReadyCallback {
                 var addressList : List<Address>? = null // stores all the address lists
 
                 if(location !=  null || location == "") {
+                    /*The following link was used to code the specific area search view:
+                    * website link: https://www.geeksforgeeks.org/how-to-add-searchview-in-google-maps-in-android/ */
 
                     val geocoder = Geocoder(this@ForwardingAgent)
                     try{
@@ -72,12 +74,15 @@ class ForwardingAgent : AppCompatActivity(), OnMapReadyCallback {
                         if (addressList != null) {
                             if(addressList.isNotEmpty()){
 
-                                val specificAddressList =  geocoder.getFromLocationName("$specificAddress1" +
+                    /*The following link was used to code the specific area search view:
+                    * website link: https://www.tabnine.com/code/java/methods/android.location.Geocoder/getFromLocationName
+                    * website link: http://www.java2s.com/example/java-api/android/location/geocoder/getfromlocationname-6-0.html */
+                                val ActualAddressList =  geocoder.getFromLocationName("$specificAddress1" +
                                         ", $specificAddress2,$specificAddress3,$specificAddress4, $location", 1) //adds the specified addresses to another list
-                                if (specificAddressList != null) {
-                                    if (specificAddressList.isNotEmpty()) {
+                                if (ActualAddressList != null) {
+                                    if (ActualAddressList.isNotEmpty()) {
                                         val specificLatLng =
-                                            LatLng(specificAddressList[0].latitude, specificAddressList[0].longitude) //sets the long/lat of the specified address to variable
+                                            LatLng(ActualAddressList[0].latitude, ActualAddressList[0].longitude) //sets the long/lat of the specified address to variable
 
                                         // Add a marker for the specific address
                                         mMap.addMarker(
