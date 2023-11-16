@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.cardview.widget.CardView
 import com.CargoTrack.cargotrack.Model.DepotAddresses
+import com.CargoTrack.cargotrack.Model.ForwardingAgentAddresses
 import com.CargoTrack.cargotrack.Model.Locations
 import com.cargotrack.cargotrack.R
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -32,6 +33,7 @@ class DepoActivty : AppCompatActivity(), OnMapReadyCallback {
     lateinit var database: DatabaseReference
     val locations = Locations()
     val depoAddresses = DepotAddresses()
+    val AgentAddresses = ForwardingAgentAddresses()
     private lateinit var searchView: SearchView
     val specificAddress1 = depoAddresses.DurbanDepotAddress
     val specificAddress2 = depoAddresses.JoburgDepoAddress
@@ -39,6 +41,10 @@ class DepoActivty : AppCompatActivity(), OnMapReadyCallback {
     val specificAddress4 = depoAddresses.CapeTownDepotAddress
     val specificAddress5 = depoAddresses.PortElizabethDepotAddress
 
+
+    /*Code attribution
+   * The following youtube link was referred to when adding locations to the map
+   * youtube link: https://www.youtube.com/watch?v=acUB18U-IM8 */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forwarding_agent)
@@ -51,6 +57,13 @@ class DepoActivty : AppCompatActivity(), OnMapReadyCallback {
         val database = FirebaseDatabase.getInstance().getReference("locations")
         database.setValue(locations)
 
+        val database2 = FirebaseDatabase.getInstance().reference
+        database2.child("Addresses").child("AddressDepo").setValue(depoAddresses)
+        database2.child("Addresses").child("AddressForwardingAgent").setValue(AgentAddresses)
+
+        /*Code attribution
+                      * The Following Search function was programmed referring to the following website link:
+                      * Weblink: https://www.geeksforgeeks.org/how-to-add-searchview-in-google-maps-in-android/ */
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
 

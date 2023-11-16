@@ -70,7 +70,7 @@ class SelectionActivity : AppCompatActivity() {
             emailIntent.type = "plain/text"
             emailIntent.putExtra(Intent.EXTRA_STREAM, CameraActivity.uri)
             this.startActivity(Intent.createChooser(emailIntent, "Sending email..."))
-            Toast.makeText(this, "Email sent", Toast.LENGTH_LONG).show()
+
 
         }
         catch (t: Throwable) {

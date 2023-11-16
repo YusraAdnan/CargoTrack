@@ -34,7 +34,7 @@ class SignUpActivity : AppCompatActivity() {
         //etEmail = findViewById(R.id.etEmail)
         etFullName = findViewById(R.id.etFullName)
         etEmail =findViewById(R.id.etEmail)
-        etUsername = findViewById(R.id.etUsername)
+
         etPassword = findViewById(R.id.etPassword)
         etConfirmPassword = findViewById(R.id.etConfirmPassword)
         btnLogin = findViewById(R.id.btnLogin)
@@ -53,14 +53,13 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun UserSignUp() {
-        //val email = etEmail.text.toString()
-        //val fullname = etFullName.text.toString()
-        val username = etEmail.text.toString().trim()
+
+        val email = etEmail.text.toString().trim()
         val password = etPassword.text.toString().trim()
         val confirmPassword = etConfirmPassword.text.toString()
 
         //error handling if any of the edit texts are blank/null
-        if (username.isBlank() || password.isBlank() || confirmPassword.isBlank()) {
+        if (email.isBlank() || password.isBlank() || confirmPassword.isBlank()) {
             Toast.makeText(this, "Fill in you email and password", Toast.LENGTH_SHORT).show()
             return
         }
@@ -75,7 +74,7 @@ class SignUpActivity : AppCompatActivity() {
             return
         }
         // If all credential are correct we call createUserWithEmailAndPassword using auth object and pass the email and pass in it.
-        firebaseAuth.createUserWithEmailAndPassword(username, password)
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) {
                 if (it.isSuccessful) {
 

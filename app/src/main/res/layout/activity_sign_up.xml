@@ -63,19 +63,7 @@
                 android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
                 android:textColor="@color/white" />
 
-            <EditText
-                android:id="@+id/etUsername"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/custom_edittext"
-                android:backgroundTint="@color/darkBlue"
-                android:drawablePadding="8dp"
-                android:hint="Username"
-                android:inputType="text"
-                android:padding="8dp"
-                android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
-                android:textColor="@color/white" />
+
 
             <EditText
                 android:id="@+id/etPassword"
@@ -114,7 +102,7 @@
                 android:text="login"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:cornerRadius="20dp" />
+                app:cornerRadius="30dp" />
 
             <Button
                 android:id="@+id/btnSignup"
