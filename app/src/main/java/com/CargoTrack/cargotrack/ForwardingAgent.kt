@@ -59,7 +59,8 @@ class ForwardingAgent : AppCompatActivity(), OnMapReadyCallback {
 
                 /*Code attribution
                 * The Following Search function was programmed referring to the following website link:
-                * Weblink: https://www.geeksforgeeks.org/how-to-add-searchview-in-google-maps-in-android/ */
+                * Weblink: https://www.geeksforgeeks.org/how-to-add-searchview-in-google-maps-in-android/
+                *  * https://chat.openai.com/: was used to convert some java code to kotlin from the above reference link  */
 
                 val location = searchView.query.toString() //location from searchView
                 var addressList : List<Address>? = null // stores all the address lists
