@@ -63,7 +63,8 @@ class DepoActivty : AppCompatActivity(), OnMapReadyCallback {
 
         /*Code attribution
           * The Following Search function was programmed referring to the following website link:
-          * Weblink: https://www.geeksforgeeks.org/how-to-add-searchview-in-google-maps-in-android/ */
+          * Weblink: https://www.geeksforgeeks.org/how-to-add-searchview-in-google-maps-in-android/
+          *  https://chat.openai.com/: was used to convert some java code to kotlin from the above reference link  */
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
 
