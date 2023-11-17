@@ -82,7 +82,8 @@ class DepoActivty : AppCompatActivity(), OnMapReadyCallback {
 
                                 /*The following link was used to code the specific area search view:
                                * website link: https://www.tabnine.com/code/java/methods/android.location.Geocoder/getFromLocationName
-                               * website link: http://www.java2s.com/example/java-api/android/location/geocoder/getfromlocationname-6-0.html */
+                               * website link: http://www.java2s.com/example/java-api/android/location/geocoder/getfromlocationname-6-0.html
+                               * https://chat.openai.com/: was used to convert some java code to kotlin from the above reference link */
 
                                 val ActualAddressList =  geocoder.getFromLocationName("$specificAddress1, $specificAddress2,$specificAddress3,$specificAddress4,$specificAddress5, $location", 1)
                                 if (ActualAddressList != null) {
@@ -137,6 +138,8 @@ class DepoActivty : AppCompatActivity(), OnMapReadyCallback {
     }
     @SuppressLint("SetTextI18n")
     override fun onMapReady(googleMap: GoogleMap) {
+        /*The following youtube link was referred to, to personalize the markers:
+        *youtube link: https://www.youtube.com/watch?v=yXKhU_8ujxU */
 
         mMap = googleMap
         // mMap.setInfoWindowAdapter(this)
